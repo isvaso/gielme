@@ -1,13 +1,12 @@
 package com.isvaso;
 
-/**
- * Hello world!
- *
- */
+import com.isvaso.sceen.Screen;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Screen screen = new Screen();
+        screen.start();
     }
 }
