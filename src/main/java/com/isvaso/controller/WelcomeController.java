@@ -8,12 +8,7 @@ import lombok.RequiredArgsConstructor;
 public class WelcomeController implements Controller {
 
     @Override
-    public View getView() {
+    public View handleInput(String input) {
         return new WelcomeView();
-    }
-
-    @Override
-    public Controller handleInput(String input) {
-        return this;
     }
 }
