@@ -9,7 +9,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskService {
 
-    private TaskRepository repository;
+    private TaskRepository repository = new TaskRepository();
 
     public void add(Task task) {
         repository.add(task);
@@ -19,8 +19,12 @@ public class TaskService {
         return repository.get();
     }
 
-    public boolean delete(Task task) {
-        return repository.delete(task);
+    public Task get(int index) {
+        return repository.get(index);
+    }
+
+    public Task delete(int index) {
+        return repository.delete(index);
     }
 
 }

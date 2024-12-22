@@ -1,19 +1,18 @@
 package com.isvaso.sceen;
 
 import com.isvaso.controller.Controller;
-import com.isvaso.controller.WelcomeController;
 import com.isvaso.view.View;
-import com.isvaso.view.WelcomeView;
+import com.isvaso.view.IndexView;
 
 import java.util.Scanner;
 
 public class Screen {
 
-    private final String FLUSH = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    private final String FLUSH = "\n\n\n\n\n\n\n";
     private View view;
 
     public Screen() {
-        view = new WelcomeView();
+        view = new IndexView();
 
     }
 
@@ -28,6 +27,7 @@ public class Screen {
             String input = scanner.nextLine();
 
             Controller controller = view.getController();
+            // TODO: call input validation and show error message if false
             view = controller.handleInput(input);
         }
 

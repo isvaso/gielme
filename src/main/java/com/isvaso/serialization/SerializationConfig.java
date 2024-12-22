@@ -1,4 +1,4 @@
-package com.isvaso.codec;
+package com.isvaso.serialization;
 
 public class SerializationConfig {
 

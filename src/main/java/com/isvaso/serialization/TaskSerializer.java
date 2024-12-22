@@ -1,4 +1,4 @@
-package com.isvaso.codec;
+package com.isvaso.serialization;
 
 import com.isvaso.model.Task;
 import com.isvaso.model.TaskState;

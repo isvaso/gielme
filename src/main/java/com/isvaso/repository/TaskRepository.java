@@ -9,7 +9,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskRepository {
 
-    private TaskStorage storage;
+    private TaskStorage storage = new TaskStorage();
 
     public void add(Task task) {
         storage.add(task);
@@ -19,7 +19,11 @@ public class TaskRepository {
         return storage.get();
     }
 
-    public boolean delete(Task task) {
-        return storage.delete(task);
+    public Task get(int index) {
+        return storage.get(index);
+    }
+
+    public Task delete(int index) {
+        return storage.delete(index);
     }
 }
