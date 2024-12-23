@@ -9,7 +9,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskRepository {
 
-    private TaskStorage storage = new TaskStorage();
+    private final TaskStorage storage = new TaskStorage();
 
     public void add(Task task) {
         storage.add(task);

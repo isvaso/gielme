@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskListController implements Controller {
 
-    private TaskService service = new TaskService();
+    private final TaskService service = TaskService.getInstance();
 
     @Override
     public View handleInput(String input) {

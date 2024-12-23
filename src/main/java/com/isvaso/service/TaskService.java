@@ -2,14 +2,19 @@ package com.isvaso.service;
 
 import com.isvaso.model.Task;
 import com.isvaso.repository.TaskRepository;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
 public class TaskService {
 
-    private TaskRepository repository = new TaskRepository();
+    @Getter
+    private static final TaskService instance = new TaskService();
+
+    private final TaskRepository repository = new TaskRepository();
+
+    private TaskService() {}
 
     public void add(Task task) {
         repository.add(task);

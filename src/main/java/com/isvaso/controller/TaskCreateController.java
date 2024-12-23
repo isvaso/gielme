@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskCreateController implements Controller {
 
-    private TaskService service = new TaskService();
+    private final TaskService service = TaskService.getInstance();
 
     @Override
     public View handleInput(String input) {
@@ -22,9 +22,5 @@ public class TaskCreateController implements Controller {
         }
         service.add(new Task(input));
         return new TaskListView();
-    }
-
-    public List<Task> getAll() {
-        return service.get();
     }
 }

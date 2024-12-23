@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskDeleteController implements Controller {
 
-    private TaskService service = new TaskService();
+    private final TaskService service = TaskService.getInstance();
 
     @Override
     public View handleInput(String input) {
