@@ -10,7 +10,7 @@ public class TaskListView implements View {
 
     @Override
     public TaskListController getController() {
-        return new TaskListController();
+        return new TaskListController(this);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class TaskListView implements View {
             String renderedTask = renderTask(tasks.get(i));
             stringBuilder.append(renderedTask).append("\n");
         }
-        stringBuilder.append("\n").append("1. Back").append("\n").append("0. Exit");
+        stringBuilder.append("\n").append("B. Back").append("\n").append("Q. Quit").append("\n");
         return stringBuilder.toString();
     }
 

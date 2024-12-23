@@ -28,7 +28,7 @@ public class Screen {
 
             Controller controller = view.getController();
             // TODO: call input validation and show error message if false
-            view = controller.handleInput(input);
+            view = controller.handleCommand(input);
         }
 
     }

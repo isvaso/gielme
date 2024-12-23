@@ -1,29 +1,15 @@
 package com.isvaso.controller;
 
-import com.isvaso.controller.Controller;
 import com.isvaso.model.Task;
-import com.isvaso.service.TaskService;
 import com.isvaso.view.View;
-import com.isvaso.view.IndexView;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-public class TaskListController implements Controller {
+public class TaskListController extends BaseController {
 
-    private final TaskService service = TaskService.getInstance();
 
-    @Override
-    public View handleInput(String input) {
-        switch (input) {
-            case "0":
-                System.exit(0);
-                break;
-            case "1":
-                return new IndexView();
-        }
-        return new IndexView();
+    public TaskListController(View view) {
+        super(view);
     }
 
     public List<Task> getAll() {

@@ -6,7 +6,7 @@ public class IndexView implements View {
 
     @Override
     public IndexController getController() {
-        return new IndexController();
+        return new IndexController(this);
     }
 
     @Override
@@ -22,14 +22,12 @@ public class IndexView implements View {
                          TASK MANAGER                          v0.0.1
                    
                    
-               Menu:
                1. List
                2. Create
                3. Solve
                4. Delete
                    
-                   
-               0. Exit
+               Q. Quit
                """;
     }
 }

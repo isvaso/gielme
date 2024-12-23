@@ -1,26 +1,22 @@
 package com.isvaso.controller;
 
 import com.isvaso.model.Task;
-import com.isvaso.model.TaskState;
-import com.isvaso.service.TaskService;
-import com.isvaso.view.IndexView;
-import com.isvaso.view.TaskSolveView;
 import com.isvaso.view.View;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor
-public class TaskSolveController implements Controller {
+public class TaskSolveController extends BaseController {
 
-    private final TaskService service = TaskService.getInstance();
+    public TaskSolveController(View view) {
+        super(view);
+    }
 
     @Override
-    public View handleInput(String input) {
-        int index = Integer.parseInt(input) - 2;
+    protected View handleChoseCommand(String command) {
+        int index = Integer.parseInt(command);
         Task task = service.get(index);
         task.toggleState();
-        return new TaskSolveView();
+        return view;
     }
 
     public List<Task> getAll() {

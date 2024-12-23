@@ -1,17 +1,16 @@
 package com.isvaso.controller;
 
 import com.isvaso.view.*;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
-public class IndexController implements Controller {
+public class IndexController extends BaseController {
+
+    public IndexController(View view) {
+        super(view);
+    }
 
     @Override
-    public View handleInput(String input) {
-        switch (input) {
-            case "0":
-                System.exit(0);
-                break;
+    protected View handleChoseCommand(String command) {
+        switch (command) {
             case "1":
                 return new TaskListView();
             case "2":
@@ -19,8 +18,9 @@ public class IndexController implements Controller {
             case "3":
                 return new TaskSolveView();
             case "4":
-                break;
+                return new TaskDeleteView();
+            default:
+                return view;
         }
-        return new IndexView();
     }
 }
