@@ -19,10 +19,7 @@ public class TaskSolveController implements Controller {
     public View handleInput(String input) {
         int index = Integer.parseInt(input) - 2;
         Task task = service.get(index);
-        int countOfStates = TaskState.values().length;
-        int newStateIndex = (task.getState().ordinal() + 1) % countOfStates;
-        TaskState newState = TaskState.values()[newStateIndex];
-        task.setState(newState);
+        task.toggleState();
         return new TaskSolveView();
     }
 

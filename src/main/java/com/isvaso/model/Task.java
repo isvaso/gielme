@@ -18,4 +18,8 @@ public class Task {
         this.name = name;
         this.state = TaskState.UNSOLVED;
     }
+
+    public void toggleState() {
+        state = state.next();
+    }
 }
