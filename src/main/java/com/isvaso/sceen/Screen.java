@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Screen {
 
-    private final String FLUSH = "\n\n\n\n\n\n\n";
+    private final String FLUSH = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
     private View view;
 
     public Screen() {
