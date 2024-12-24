@@ -15,10 +15,10 @@ public class IndexView extends BaseView {
                """
                    
                    
-               1. List
-               2. Create
-               3. Solve
-               4. Delete
+               L. List
+               C. Create
+               S. Solve
+               D. Delete
                    
                Q. Quit
                """;

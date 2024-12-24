@@ -10,14 +10,15 @@ public class IndexController extends BaseController {
 
     @Override
     protected View handleChoseCommand(String command) {
-        switch (command) {
-            case "1":
+        String commandUpperCase = command.toUpperCase();
+        switch (commandUpperCase) {
+            case "L":
                 return new TaskListView();
-            case "2":
+            case "C":
                 return new TaskCreateView();
-            case "3":
+            case "S":
                 return new TaskSolveView();
-            case "4":
+            case "D":
                 return new TaskDeleteView();
             default:
                 return view;
