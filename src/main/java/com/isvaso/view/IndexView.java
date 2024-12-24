@@ -2,7 +2,7 @@ package com.isvaso.view;
 
 import com.isvaso.controller.IndexController;
 
-public class IndexView implements View {
+public class IndexView extends BaseView {
 
     @Override
     public IndexController getController() {
@@ -11,15 +11,8 @@ public class IndexView implements View {
 
     @Override
     public String render() {
-        return
-               """   
-                        ██████╗ ██╗███████╗██╗     ███╗   ███╗███████╗
-                       ██╔════╝ ██║██╔════╝██║     ████╗ ████║██╔════╝
-                       ██║  ███╗██║█████╗  ██║     ██╔████╔██║█████╗ \s
-                       ██║   ██║██║██╔══╝  ██║     ██║╚██╔╝██║██╔══╝ \s
-                       ╚██████╔╝██║███████╗███████╗██║ ╚═╝ ██║███████╗
-                        ╚═════╝ ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝╚══════╝
-                         TASK MANAGER                          v0.0.1
+        return LOGO +
+               """
                    
                    
                1. List

@@ -2,7 +2,7 @@ package com.isvaso.view;
 
 import com.isvaso.controller.TaskCreateController;
 
-public class TaskCreateView implements View {
+public class TaskCreateView extends BaseView {
 
     @Override
     public TaskCreateController getController() {
@@ -11,8 +11,14 @@ public class TaskCreateView implements View {
 
     @Override
     public String render() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Enter new task name").append("\n").append("\n").append("B. Back").append("\n").append("Q. Quit").append("\n");
-        return stringBuilder.toString();
+        return LOGO +
+               """
+                   
+                   
+               Enter new task name
+                   
+               B. Back
+               Q. Quit
+               """;
     }
 }

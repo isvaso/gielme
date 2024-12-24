@@ -6,7 +6,7 @@ import com.isvaso.model.TaskState;
 
 import java.util.List;
 
-public class TaskSolveView implements View {
+public class TaskSolveView extends BaseView {
 
     @Override
     public TaskSolveController getController() {
@@ -22,8 +22,17 @@ public class TaskSolveView implements View {
             String renderedTask = renderTask(tasks.get(i));
             stringBuilder.append(command).append(" ").append(renderedTask).append("\n");
         }
-        stringBuilder.append("\n").append("B. Back").append("\n").append("Q. Quit").append("\n");
-        return stringBuilder.toString();
+        return LOGO +
+                """
+                    
+                    
+                """
+                + stringBuilder +
+                """
+                    
+                B. Back
+                Q. Quit
+                """;
     }
 
     private String renderTask(Task task) {

@@ -6,7 +6,7 @@ import com.isvaso.model.TaskState;
 
 import java.util.List;
 
-public class TaskListView implements View {
+public class TaskListView extends BaseView {
 
     @Override
     public TaskListController getController() {
@@ -17,12 +17,21 @@ public class TaskListView implements View {
     public String render() {
         List<Task> tasks = getController().getAll();
         StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0; i < tasks.size(); i ++) {
-            String renderedTask = renderTask(tasks.get(i));
+        for (Task task : tasks) {
+            String renderedTask = renderTask(task);
             stringBuilder.append(renderedTask).append("\n");
         }
-        stringBuilder.append("\n").append("B. Back").append("\n").append("Q. Quit").append("\n");
-        return stringBuilder.toString();
+        return LOGO +
+                """
+                    
+                    
+                """
+                + stringBuilder +
+                """
+                    
+                B. Back
+                Q. Quit
+                """;
     }
 
     private String renderTask(Task task) {
