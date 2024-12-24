@@ -19,11 +19,7 @@ public class TaskRepository {
         return storage.get();
     }
 
-    public Task get(int index) {
-        return storage.get(index);
-    }
-
-    public Task delete(int index) {
-        return storage.delete(index);
+    public void update(List<Task> tasks) {
+        storage.update(tasks);
     }
 }

@@ -14,7 +14,8 @@ public class TaskService {
 
     private final TaskRepository repository = new TaskRepository();
 
-    private TaskService() {}
+    private TaskService() {
+    }
 
     public void add(Task task) {
         repository.add(task);
@@ -24,12 +25,7 @@ public class TaskService {
         return repository.get();
     }
 
-    public Task get(int index) {
-        return repository.get(index);
+    public void update(List<Task> tasks) {
+        repository.update(tasks);
     }
-
-    public Task delete(int index) {
-        return repository.delete(index);
-    }
-
 }

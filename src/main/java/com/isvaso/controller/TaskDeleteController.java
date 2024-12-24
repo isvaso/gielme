@@ -15,7 +15,9 @@ public class TaskDeleteController extends BaseController {
     @Override
     protected View handleChoseCommand(String command) {
         int index = Integer.parseInt(command);
-        service.delete(index);
+        List<Task> tasks = service.get();
+        tasks.remove(index);
+        service.update(tasks);
         return view;
     }
 

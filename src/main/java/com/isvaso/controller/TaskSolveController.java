@@ -14,8 +14,9 @@ public class TaskSolveController extends BaseController {
     @Override
     protected View handleChoseCommand(String command) {
         int index = Integer.parseInt(command);
-        Task task = service.get(index);
-        task.toggleState();
+        List<Task> tasks = service.get();
+        tasks.get(index).toggleState();
+        service.update(tasks);
         return view;
     }
 
