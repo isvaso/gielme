@@ -1,9 +1,9 @@
 package com.isvaso.service;
 
+import com.isvaso.exception.RepositoryException;
 import com.isvaso.model.Task;
 import com.isvaso.repository.TaskRepository;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -18,7 +18,11 @@ public class TaskService {
     }
 
     public void add(Task task) {
-        repository.add(task);
+        try {
+            repository.add(task);
+        } catch (RepositoryException exception) {
+            // log exception
+        }
     }
 
     public List<Task> get() {
@@ -26,6 +30,10 @@ public class TaskService {
     }
 
     public void update(List<Task> tasks) {
-        repository.update(tasks);
+        try {
+            repository.update(tasks);
+        } catch (RepositoryException e) {
+            // log exception
+        }
     }
 }
