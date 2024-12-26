@@ -4,9 +4,11 @@ import com.isvaso.exception.RepositoryException;
 import com.isvaso.model.Task;
 import com.isvaso.repository.TaskRepository;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+@Slf4j
 public class TaskService {
 
     @Getter
@@ -21,7 +23,7 @@ public class TaskService {
         try {
             repository.add(task);
         } catch (RepositoryException exception) {
-            // log exception
+            log.error("Error while addштп task: {}", exception.getMessage());
         }
     }
 
@@ -32,8 +34,8 @@ public class TaskService {
     public void update(List<Task> tasks) {
         try {
             repository.update(tasks);
-        } catch (RepositoryException e) {
-            // log exception
+        } catch (RepositoryException exception) {
+            log.error("Error while updating tasks: {}", exception.getMessage());
         }
     }
 }
