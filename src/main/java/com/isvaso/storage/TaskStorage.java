@@ -21,7 +21,7 @@ public class TaskStorage {
         try {
             fileManager.write(Configuration.TASKS_FILE_PATH, serializedTasks);
         } catch (FileManagerException exception) {
-            log.error("Error while adding task: {}", exception.getMessage());
+            log.error("Error while adding task", exception);
         }
     }
 
@@ -30,7 +30,7 @@ public class TaskStorage {
             List<String> stringData = fileManager.read(Configuration.TASKS_FILE_PATH);
             return serializer.deserialize(stringData);
         } catch (FileManagerException exception) {
-            log.error("Error while getting tasks: {}", exception.getMessage());
+            log.error("Error while getting tasks", exception);
         }
         return Collections.emptyList();
     }
@@ -40,7 +40,7 @@ public class TaskStorage {
             String serializedTasks = serializer.serialize(tasks);
             fileManager.write(Configuration.TASKS_FILE_PATH, serializedTasks);
         } catch (FileManagerException exception) {
-            log.error("Error while updating tasks: {}", exception.getMessage());
+            log.error("Error while updating tasks", exception);
         }
     }
 }

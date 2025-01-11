@@ -23,7 +23,7 @@ public class TaskService {
         try {
             repository.add(task);
         } catch (RepositoryException exception) {
-            log.error("Error while addштп task: {}", exception.getMessage());
+            log.error("Error while add task", exception);
         }
     }
 
@@ -35,7 +35,7 @@ public class TaskService {
         try {
             repository.update(tasks);
         } catch (RepositoryException exception) {
-            log.error("Error while updating tasks: {}", exception.getMessage());
+            log.error("Error while updating tasks", exception);
         }
     }
 }
