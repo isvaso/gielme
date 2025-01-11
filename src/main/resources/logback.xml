@@ -3,6 +3,8 @@
     <property name="LOG_ROOT" value="${user.home}/Gielme/logs" />
     <property name="LOG_FILE_NAME" value="Gielme" />
 
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %green([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
@@ -31,8 +33,6 @@
             <totalSizeCap>300MB</totalSizeCap>
         </rollingPolicy>
     </appender>
-
-    <logger name="ch.qos.logback" level="OFF"/>
 
     <root level="info">
         <appender-ref ref="JsonRollingFile"/>
