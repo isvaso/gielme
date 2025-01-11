@@ -27,7 +27,6 @@ public class Screen {
             String input = scanner.nextLine();
 
             Controller controller = view.getController();
-            // TODO: call input validation and show error message if false
             view = controller.handleCommand(input);
         }
 
