@@ -7,6 +7,9 @@
         <encoder>
             <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %green([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
     </appender>
 
     <appender name="JsonRollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -30,7 +33,6 @@
     </appender>
 
     <root level="info">
-        <appender-ref ref="STDOUT"/>
         <appender-ref ref="JsonRollingFile"/>
     </root>
 </configuration>
