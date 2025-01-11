@@ -5,7 +5,7 @@ import com.isvaso.model.Task;
 import com.isvaso.serialization.TaskSerializer;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -32,7 +32,7 @@ public class TaskStorage {
         } catch (FileManagerException exception) {
             log.error("Error while getting tasks", exception);
         }
-        return Collections.emptyList();
+        return new ArrayList<>();
     }
 
     public void update(List<Task> tasks) {
