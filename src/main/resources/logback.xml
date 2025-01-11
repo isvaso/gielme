@@ -35,7 +35,6 @@
     <logger name="ch.qos.logback" level="OFF"/>
 
     <root level="info">
-        <appender-ref ref="STDOUT"/>
         <appender-ref ref="JsonRollingFile"/>
     </root>
 </configuration>
