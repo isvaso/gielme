@@ -1,7 +1,7 @@
 package com.isvaso.exception;
 
 /**
- * BaseException is a custom runtime exception that supports formatted messages.
+ * BaseException is a custom exception that supports formatted messages.
  * <p>
  * This exception allows for message formatting using arguments, making it more
  * flexible and informative when used throughout the application.
