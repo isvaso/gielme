@@ -19,7 +19,7 @@ public class FileManager {
 
     public void write(Path filePath, String data) throws FileManagerException {
         try {
-            Files.writeString(filePath, data, StandardOpenOption.CREATE);
+            Files.writeString(filePath, data, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException exception) {
             throw new FileManagerException("Error while writing file", exception);
         }
