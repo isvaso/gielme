@@ -17,7 +17,7 @@ public class TaskStorage {
     public void add(Task task) {
         List<Task> tasks = get();
         tasks.add(task);
-        String serializedTasks = serializer.serialize(tasks);
+        String serializedTasks = serializer.serializeList(tasks);
         try {
             fileManager.write(Configuration.TASKS_FILE_PATH, serializedTasks);
         } catch (FileManagerException exception) {
@@ -27,8 +27,8 @@ public class TaskStorage {
 
     public List<Task> get() {
         try {
-            List<String> stringData = fileManager.read(Configuration.TASKS_FILE_PATH);
-            return serializer.deserialize(stringData);
+            String dataFromFile = fileManager.read(Configuration.TASKS_FILE_PATH);
+            return serializer.deserializeList(dataFromFile);
         } catch (FileManagerException exception) {
             log.error("Error while getting tasks", exception);
         }
@@ -37,7 +37,7 @@ public class TaskStorage {
 
     public void update(List<Task> tasks) {
         try {
-            String serializedTasks = serializer.serialize(tasks);
+            String serializedTasks = serializer.serializeList(tasks);
             fileManager.write(Configuration.TASKS_FILE_PATH, serializedTasks);
         } catch (FileManagerException exception) {
             log.error("Error while updating tasks", exception);

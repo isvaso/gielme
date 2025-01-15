@@ -6,13 +6,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
 
 public class FileManager {
 
-    public List<String> read(Path filePath) throws FileManagerException {
+    public String read(Path filePath) throws FileManagerException {
         try {
-            return Files.readAllLines(filePath);
+            return Files.readString(filePath);
         } catch (IOException exception) {
             throw new FileManagerException("Error while reading file", exception);
         }
