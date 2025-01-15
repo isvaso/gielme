@@ -1,5 +1,7 @@
 package com.isvaso.storage;
 
+import com.isvaso.encryption.Encryptor;
+import com.isvaso.encryption.XorEncryptor;
 import com.isvaso.exception.FileManagerException;
 import com.isvaso.model.Task;
 import com.isvaso.serialization.TaskSerializer;
@@ -13,13 +15,15 @@ public class TaskStorage {
 
     private final FileManager fileManager = new FileManager();
     private final TaskSerializer serializer = new TaskSerializer();
+    private final Encryptor encryptor = new XorEncryptor();
 
     public void add(Task task) {
         List<Task> tasks = get();
         tasks.add(task);
         String serializedTasks = serializer.serializeList(tasks);
+        String encryptedTasks = encryptor.encrypt(serializedTasks);
         try {
-            fileManager.write(Configuration.TASKS_FILE_PATH, serializedTasks);
+            fileManager.write(Configuration.TASKS_FILE_PATH, encryptedTasks);
         } catch (FileManagerException exception) {
             log.error("Error while adding task", exception);
         }
@@ -28,7 +32,8 @@ public class TaskStorage {
     public List<Task> get() {
         try {
             String dataFromFile = fileManager.read(Configuration.TASKS_FILE_PATH);
-            return serializer.deserializeList(dataFromFile);
+            String decryptedData = encryptor.decrypt(dataFromFile);
+            return serializer.deserializeList(decryptedData);
         } catch (FileManagerException exception) {
             log.error("Error while getting tasks", exception);
         }
@@ -38,7 +43,8 @@ public class TaskStorage {
     public void update(List<Task> tasks) {
         try {
             String serializedTasks = serializer.serializeList(tasks);
-            fileManager.write(Configuration.TASKS_FILE_PATH, serializedTasks);
+            String encryptedData = encryptor.encrypt(serializedTasks);
+            fileManager.write(Configuration.TASKS_FILE_PATH, encryptedData);
         } catch (FileManagerException exception) {
             log.error("Error while updating tasks", exception);
         }
