@@ -15,7 +15,6 @@ public class Screen {
 
     public Screen() {
         view = new IndexView();
-
     }
 
     public void start() {
