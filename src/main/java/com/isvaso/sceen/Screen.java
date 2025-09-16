@@ -8,7 +8,9 @@ import java.util.Scanner;
 
 public class Screen {
 
-    private final String FLUSH = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+    private final String FLUSH = "\u001B[H\u001B[2J";
+    private final String TOP_OFFSET = "\n\n\n\n\n";
+    private final String SINGLE_OFFSET = "\n";
     private View view;
 
     public Screen() {
@@ -20,9 +22,11 @@ public class Screen {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println(FLUSH);
-            System.out.println(view.render());
+            System.out.print(FLUSH);
+            System.out.print(TOP_OFFSET);
+            System.out.print(view.render());
 
+            System.out.print(SINGLE_OFFSET);
             System.out.print("> ");
             String input = scanner.nextLine();
 
