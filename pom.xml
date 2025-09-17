@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.isvaso</groupId>
-  <artifactId>simple-task-manager</artifactId>
+  <artifactId>gielme</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>simple-task-manager</name>
+  <name>gielme</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
