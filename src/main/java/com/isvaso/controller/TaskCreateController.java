@@ -11,8 +11,10 @@ public class TaskCreateController extends BaseController {
     }
 
     @Override
-    protected View handleChoseCommand(String command) {
-        service.add(new Task(command));
+    protected View handleUserInput(String input) {
+        if(input == null || input.isBlank())
+            return view;
+        service.add(new Task(input));
         return new TaskListView();
     }
 }

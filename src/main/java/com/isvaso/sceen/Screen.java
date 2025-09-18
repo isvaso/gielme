@@ -32,6 +32,5 @@ public class Screen {
             Controller controller = view.getController();
             view = controller.handleCommand(input);
         }
-
     }
 }
