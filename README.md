@@ -5,7 +5,7 @@
      ██║   ██║██║██╔══╝  ██║     ██║╚██╔╝██║██╔══╝
      ╚██████╔╝██║███████╗███████╗██║ ╚═╝ ██║███████╗
       ╚═════╝ ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝╚══════╝
-       SIMPLE TASK MANAGER                     v0.1
+       SIMPLE TASK MANAGER                     v1.0
 
 **gielme** - a simple terminal-based task manager.
 

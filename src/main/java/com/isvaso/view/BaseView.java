@@ -10,6 +10,6 @@ abstract class BaseView implements View {
                               ██║   ██║██║██╔══╝  ██║     ██║╚██╔╝██║██╔══╝
                               ╚██████╔╝██║███████╗███████╗██║ ╚═╝ ██║███████╗
                                ╚═════╝ ╚═╝╚══════╝╚══════╝╚═╝     ╚═╝╚══════╝
-                                SIMPLE TASK MANAGER                     v0.1
+                                SIMPLE TASK MANAGER                     v1.0
             """;
 }
