@@ -10,8 +10,4 @@ public class TaskListController extends BaseController {
     public TaskListController(View view) {
         super(view);
     }
-
-    public List<Task> getAll() {
-        return service.get();
-    }
 }

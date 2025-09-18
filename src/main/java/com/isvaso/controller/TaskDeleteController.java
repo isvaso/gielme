@@ -23,8 +23,4 @@ public class TaskDeleteController extends BaseController {
         service.update(tasks);
         return view;
     }
-
-    public List<Task> getAll() {
-        return service.get();
-    }
 }
