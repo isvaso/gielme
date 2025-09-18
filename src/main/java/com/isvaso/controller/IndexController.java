@@ -2,6 +2,8 @@ package com.isvaso.controller;
 
 import com.isvaso.view.*;
 
+import java.util.Optional;
+
 public class IndexController extends BaseController {
 
     public IndexController(View view) {
@@ -10,15 +12,17 @@ public class IndexController extends BaseController {
 
     @Override
     protected View handleChoseCommand(String command) {
-        String commandUpperCase = command.toUpperCase();
-        switch (commandUpperCase) {
-            case "L":
+        Optional<CommandEnum> commandOptional = CommandEnum.getByKey(command);
+        if(commandOptional.isEmpty())
+            return view;
+        switch (commandOptional.get()) {
+            case LIST:
                 return new TaskListView();
-            case "C":
+            case CREATE:
                 return new TaskCreateView();
-            case "S":
+            case SOLVE:
                 return new TaskSolveView();
-            case "D":
+            case DELETE:
                 return new TaskDeleteView();
             default:
                 return view;

@@ -4,6 +4,8 @@ import com.isvaso.service.TaskService;
 import com.isvaso.view.*;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 abstract class BaseController implements Controller {
 
@@ -13,11 +15,13 @@ abstract class BaseController implements Controller {
 
     @Override
     public View handleCommand(String command) {
-        String commandUpperCase = command.toUpperCase();
-        switch (commandUpperCase) {
-            case "Q":
+        Optional<CommandEnum> commandOptional = CommandEnum.getByKey(command);
+        if(commandOptional.isEmpty())
+            return view;
+        switch (commandOptional.get()) {
+            case QUIT:
                 System.exit(0);
-            case "B":
+            case BACK:
                 return back();
             default:
                 return handleChoseCommand(command);
