@@ -7,7 +7,6 @@ import java.util.List;
 
 public class TaskDeleteController extends BaseController {
 
-
     public TaskDeleteController(View view) {
         super(view);
     }

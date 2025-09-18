@@ -7,7 +7,6 @@ import java.util.List;
 
 public class TaskListController extends BaseController {
 
-
     public TaskListController(View view) {
         super(view);
     }

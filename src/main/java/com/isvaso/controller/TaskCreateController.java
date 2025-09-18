@@ -6,7 +6,6 @@ import com.isvaso.view.View;
 
 public class TaskCreateController extends BaseController {
 
-
     public TaskCreateController(View view) {
         super(view);
     }
