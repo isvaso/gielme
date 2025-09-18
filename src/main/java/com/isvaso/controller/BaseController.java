@@ -1,0 +1,48 @@
+package com.isvaso.controller;
+
+import com.isvaso.model.Task;
+import com.isvaso.service.TaskService;
+import com.isvaso.view.*;
+import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+import java.util.Optional;
+
+@RequiredArgsConstructor
+abstract class BaseController implements Controller {
+
+    protected final TaskService service = TaskService.getInstance();
+
+    protected final View view;
+
+    @Override
+    public View handleCommand(String value) {
+        Optional<CommandEnum> commandOptional = CommandEnum.getByKey(value);
+        if (commandOptional.isEmpty())
+            return handleUserInput(value);
+        switch (commandOptional.get()) {
+            case QUIT:
+                System.exit(0);
+            case BACK:
+                return back();
+            default:
+                return handleChoseCommand(value);
+        }
+    }
+
+    protected View back() {
+        return new IndexView();
+    }
+
+    protected View handleChoseCommand(String command) {
+        return view;
+    }
+
+    protected View handleUserInput(String input) {
+        return view;
+    }
+
+    public List<Task> getAll() {
+        return service.get();
+    }
+}
