@@ -1,0 +1,46 @@
+name: Release
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-upload:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Get project version from pom.xml
+        id: get_version
+        run: |
+          VERSION=$(./mvnw -q -DforceStdout help:evaluate -Dexpression=project.version)
+          echo "VERSION=${VERSION}"
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Build with Maven
+        run: |
+          ./mvnw -q -DskipTests package
+          cp target/*.jar ./gielme.jar
+
+      - name: Prepare release package
+        run: |
+          mkdir dist
+          cp gielme.jar dist/
+          cp release/scripts/install.sh dist/
+          cp release/scripts/uninstall.sh dist/
+          cd dist
+          tar -czf gielme-${{ steps.get_version.outputs.VERSION }}.tar.gz *
+          mv gielme-${{ steps.get_version.outputs.VERSION }}.tar.gz ..
+
+      - name: Upload archive to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: gielme-${{ steps.get_version.outputs.VERSION }}.tar.gz
