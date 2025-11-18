@@ -9,12 +9,21 @@
 
 **gielme** - a simple terminal-based task manager.
 
-
-
 Navigation and interaction are performed by typing either a command letter or an element index (case-insensitive).
 
-After building with Maven and **Java 17+**, run the application with:
+***Java 17+ required***
+
+
+
+### Installation (macOS & Linux)
+Extract the release archive and run the installer:
 
 ```bash
-java -jar target/gielme-<version>.jar
+sudo ./install.sh
+```
+
+Now you can launch the application globally from anywhere using:
+
+```bash
+gielme
 ```
