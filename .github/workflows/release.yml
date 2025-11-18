@@ -21,14 +21,21 @@ jobs:
       - name: Get project version from pom.xml
         id: get_version
         run: |
-          VERSION=$(./mvnw -q -DforceStdout help:evaluate -Dexpression=project.version)
+          VERSION=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.version)
           echo "VERSION=${VERSION}"
-          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+          echo "VERSION=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Get artifactId from pom.xml
+        id: get_artifact
+        run: |
+          ARTIFACT=$(mvn -q -DforceStdout help:evaluate -Dexpression=project.artifactId)
+          echo "ARTIFACT=${ARTIFACT}"
+          echo "ARTIFACT=${ARTIFACT}" >> "$GITHUB_OUTPUT"
 
       - name: Build with Maven
         run: |
-          ./mvnw -q -DskipTests package
-          cp target/*.jar ./gielme.jar
+          mvn -q -DskipTests package
+          cp target/${{ steps.get_artifact.outputs.ARTIFACT }}-${{ steps.get_version.outputs.VERSION }}.jar ./gielme.jar
 
       - name: Prepare release package
         run: |
