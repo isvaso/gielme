@@ -14,7 +14,6 @@ Navigation and interaction are performed by typing either a command letter or an
 ***Java 17+ required***
 
 
-
 ### Installation (macOS & Linux)
 Extract the release archive and run the installer:
 
