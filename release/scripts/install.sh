@@ -17,18 +17,6 @@ APP_NAME="gielme"
 JAR_NAME="gielme.jar"
 INSTALL_DIR="/usr/local/lib/${APP_NAME}"
 BIN_PATH="/usr/local/bin/${APP_NAME}"
-USER_DATA_DIR="${HOME}/Gielme"
-
-# Determine real user and home directory
-if [ -n "$SUDO_USER" ]; then
-  REAL_USER="$SUDO_USER"
-  REAL_HOME=$(eval echo "~$SUDO_USER")
-else
-  REAL_USER="$USER"
-  REAL_HOME="$HOME"
-fi
-
-USER_DATA_DIR="${REAL_HOME}/Gielme"
 
 # Root required
 if [ "$EUID" -ne 0 ]; then
@@ -92,16 +80,6 @@ fi
 # Install JAR
 mkdir -p "${INSTALL_DIR}"
 cp "${SCRIPT_DIR}/${JAR_NAME}" "${INSTALL_DIR}/"
-
-# Create user data directory with correct permissions
-if [ ! -d "${USER_DATA_DIR}" ]; then
-  mkdir -p "${USER_DATA_DIR}"
-  chown -R "${REAL_USER}:${REAL_USER}" "${USER_DATA_DIR}"
-  echo "Created user data directory: ${USER_DATA_DIR}"
-else
-  chown -R "${REAL_USER}:${REAL_USER}" "${USER_DATA_DIR}"
-  echo "User data directory already exists: ${USER_DATA_DIR}"
-fi
 
 # Create launcher script
 cat <<EOF > "${BIN_PATH}"
