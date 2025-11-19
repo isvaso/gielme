@@ -4,7 +4,7 @@
 
     <groupId>com.isvaso</groupId>
     <artifactId>gielme</artifactId>
-    <version>1.1</version>
+    <version>1.2</version>
     <packaging>jar</packaging>
 
     <name>gielme</name>
