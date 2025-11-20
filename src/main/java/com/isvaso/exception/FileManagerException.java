@@ -9,7 +9,4 @@ public class FileManagerException extends BaseException {
     public FileManagerException(String message, Object... args) {
         super(message, args);
     }
-
-
-
 }
