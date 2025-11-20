@@ -62,6 +62,7 @@ public class TaskStorage {
         try {
             fileManager.delete(Configuration.TASKS_FILE_PATH);
             fileManager.copy(Configuration.TASK_BACKUP_FILE_PATH, Configuration.TASKS_FILE_PATH);
+            fileManager.delete(Configuration.TASK_BACKUP_FILE_PATH);
         } catch (FileManagerException exception) {
             log.error("Error while backup task", exception);
         }
