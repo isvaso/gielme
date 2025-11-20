@@ -23,11 +23,12 @@ public class DataVersionService {
         return repository.get();
     }
 
-    public void update(DataVersion dataVersion) {
+    public Optional<DataVersion> update(DataVersion dataVersion) {
         try {
-            repository.update(dataVersion);
+            return repository.update(dataVersion);
         } catch (RepositoryException exception) {
             log.error("Error while updating data version", exception);
         }
+        return Optional.empty();
     }
 }

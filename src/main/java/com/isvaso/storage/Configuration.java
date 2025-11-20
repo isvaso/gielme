@@ -4,7 +4,7 @@ import java.nio.file.Path;
 
 public class Configuration {
 
-    private static final int APP_DATA_VERSION = 1;
+    public static final int APP_DATA_VERSION = 0;
 
     private static final String ROOT_DIRECTORY = System.getProperty("user.home");
 
@@ -14,9 +14,9 @@ public class Configuration {
 
     private static final String BACKUP_EXTENSION = ".backup";
 
-    public static final String TASKS_FILE_NAME = "task";
+    private static final String TASKS_FILE_NAME = "task";
 
-    public static final String DATA_VERSION_FILE_NAME = "data-version";
+    private static final String DATA_VERSION_FILE_NAME = "data-version";
 
     private static final Path APP_PATH = Path.of(ROOT_DIRECTORY, APP_DIRECTORY);
 

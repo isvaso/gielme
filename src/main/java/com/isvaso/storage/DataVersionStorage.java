@@ -23,7 +23,7 @@ public class DataVersionStorage {
             String decryptedData = encryptor.decrypt(dataFromFile);
             return serializer.deserialize(decryptedData);
         } catch (FileManagerException | SerializerException exception) {
-            log.error("Error while getting tasks", exception);
+            log.error("Error while getting data version", exception);
         }
         return Optional.empty();
     }

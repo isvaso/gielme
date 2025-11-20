@@ -16,9 +16,10 @@ public class DataVersionRepository {
         return storage.get();
     }
 
-    public void update(DataVersion dataVersion) throws RepositoryException {
+    public Optional<DataVersion> update(DataVersion dataVersion) throws RepositoryException {
         if (dataVersion == null)
             throw new RepositoryException("Data version is null");
         storage.update(dataVersion);
+        return Optional.of(dataVersion);
     }
 }

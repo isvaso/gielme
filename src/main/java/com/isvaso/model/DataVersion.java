@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class DataVersion {
 
-    private int version;
+    private final int version;
 
     public DataVersion(int version) {
         this.version = version;
