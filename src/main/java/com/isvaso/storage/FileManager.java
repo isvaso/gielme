@@ -5,6 +5,7 @@ import com.isvaso.exception.FileManagerException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 
 public class FileManager {
@@ -30,6 +31,24 @@ public class FileManager {
         }
     }
 
+    public void copy(Path fromPath, Path toPath) throws FileManagerException {
+        checkFileForRead(fromPath);
+        try {
+            Files.copy(fromPath, toPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException exception) {
+            throw new FileManagerException("Error while copy file", exception);
+        }
+    }
+
+    public void delete(Path filePath) throws FileManagerException {
+        checkFileForDelete(filePath);
+        try {
+            Files.delete(filePath);
+        } catch (IOException exception) {
+            throw new FileManagerException("Error while delete file", exception);
+        }
+    }
+
     private void checkDirectoryForRead(Path filePath) throws FileManagerException {
         if (filePath == null)
             throw new FileManagerException("File path cannot be null");
@@ -50,7 +69,7 @@ public class FileManager {
         Path fileDirectory = filePath.getParent();
         if (fileDirectory == null)
             return;
-        if(!Files.exists(fileDirectory))
+        if (!Files.exists(fileDirectory))
             return;
         if (!Files.isDirectory(fileDirectory))
             throw new FileManagerException("Parent path exists but is not a directory: %s".formatted(fileDirectory));
@@ -80,6 +99,17 @@ public class FileManager {
             throw new FileManagerException("Target path is a directory, not a file: %s".formatted(filePath));
         if (!Files.isWritable(filePath))
             throw new FileManagerException("File is not writable: %s".formatted(filePath));
+    }
+
+    private void checkFileForDelete(Path filePath) throws FileManagerException {
+        if (filePath == null)
+            throw new FileManagerException("File path cannot be null");
+        if (!Files.exists(filePath))
+            throw new FileManagerException("File does not exist: %s".formatted(filePath));
+        if (!Files.isRegularFile(filePath))
+            throw new FileManagerException("Path is not a regular file: %s".formatted(filePath));
+        if (!Files.isWritable(filePath))
+            throw new FileManagerException("File is not readable: %s".formatted(filePath));
     }
 
     private void prepareDirectory(Path filePath) throws FileManagerException {

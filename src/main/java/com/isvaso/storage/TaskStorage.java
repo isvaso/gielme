@@ -49,4 +49,21 @@ public class TaskStorage {
             log.error("Error while updating tasks", exception);
         }
     }
+
+    public void backup() {
+        try {
+            fileManager.copy(Configuration.TASKS_FILE_PATH, Configuration.TASK_BACKUP_FILE_PATH);
+        } catch (FileManagerException exception) {
+            log.error("Error while backup task", exception);
+        }
+    }
+
+    public void restore() {
+        try {
+            fileManager.delete(Configuration.TASKS_FILE_PATH);
+            fileManager.copy(Configuration.TASK_BACKUP_FILE_PATH, Configuration.TASKS_FILE_PATH);
+        } catch (FileManagerException exception) {
+            log.error("Error while backup task", exception);
+        }
+    }
 }
