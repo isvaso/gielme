@@ -13,9 +13,8 @@ public class TaskRepository {
     private final TaskStorage storage = new TaskStorage();
 
     public void add(Task task) throws RepositoryException {
-        if(task == null) {
+        if(task == null)
             throw new RepositoryException("Task is null");
-        }
         storage.add(task);
     }
 
@@ -24,9 +23,8 @@ public class TaskRepository {
     }
 
     public void update(List<Task> tasks) throws RepositoryException {
-        if(tasks == null) {
+        if(tasks == null)
             throw new RepositoryException("Tasks is null");
-        }
         storage.update(tasks);
     }
 }
