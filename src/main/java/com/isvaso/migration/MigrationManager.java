@@ -30,6 +30,7 @@ public class MigrationManager {
     }
 
     private void initMigrations() {
+
     }
 
     public void run() throws MigrationException {
@@ -39,7 +40,7 @@ public class MigrationManager {
             final int appDataVersion = Configuration.APP_DATA_VERSION;
             if (appDataVersion < taskFileDataVersion)
                 throw new MigrationException(
-                        "Invalid app data version. App data version is %s but task file with %s".formatted(
+                        "Invalid app data version. App supports version %s but task file is version %s".formatted(
                                 appDataVersion, taskFileDataVersion
                         )
                 );
