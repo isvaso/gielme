@@ -6,7 +6,9 @@ import com.isvaso.repository.TaskRepository;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 public class TaskService {
@@ -19,23 +21,25 @@ public class TaskService {
     private TaskService() {
     }
 
-    public void add(Task task) {
+    public Optional<Task> add(Task task) {
         try {
-            repository.add(task);
+            return repository.add(task);
         } catch (RepositoryException exception) {
             log.error("Error while add task", exception);
         }
+        return Optional.empty();
     }
 
     public List<Task> get() {
         return repository.get();
     }
 
-    public void update(List<Task> tasks) {
+    public List<Task> update(List<Task> tasks) {
         try {
-            repository.update(tasks);
+            return repository.update(tasks);
         } catch (RepositoryException exception) {
             log.error("Error while updating tasks", exception);
         }
+        return Collections.emptyList();
     }
 }

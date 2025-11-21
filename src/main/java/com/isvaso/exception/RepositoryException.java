@@ -9,7 +9,4 @@ public class RepositoryException extends BaseException {
     public RepositoryException(String message, Object... args) {
         super(message, args);
     }
-
-
-
 }
