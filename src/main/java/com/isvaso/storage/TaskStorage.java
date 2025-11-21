@@ -50,21 +50,25 @@ public class TaskStorage {
         }
     }
 
-    public void backup() {
+    public boolean backup() {
         try {
             fileManager.copy(Configuration.TASKS_FILE_PATH, Configuration.TASK_BACKUP_FILE_PATH);
+            return true;
         } catch (FileManagerException exception) {
             log.error("Error while backup task", exception);
         }
+        return false;
     }
 
-    public void restore() {
+    public boolean restore() {
         try {
             fileManager.delete(Configuration.TASKS_FILE_PATH);
             fileManager.copy(Configuration.TASK_BACKUP_FILE_PATH, Configuration.TASKS_FILE_PATH);
             fileManager.delete(Configuration.TASK_BACKUP_FILE_PATH);
+            return true;
         } catch (FileManagerException exception) {
             log.error("Error while backup task", exception);
         }
+        return false;
     }
 }

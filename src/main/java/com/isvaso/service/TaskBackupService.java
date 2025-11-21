@@ -6,13 +6,13 @@ public class TaskBackupService {
 
     private final TaskStorage taskStorage = new TaskStorage();
 
-    public void backup()
+    public boolean backup()
     {
-        taskStorage.backup();
+        return taskStorage.backup();
     }
 
-    public void restore()
+    public boolean restore()
     {
-        taskStorage.restore();
+        return taskStorage.restore();
     }
 }

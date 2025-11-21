@@ -34,36 +34,60 @@ public class MigrationManager {
     }
 
     public void run() throws MigrationException {
+        Optional<DataVersion> dataVersionOptional = dataVersionService.get();
+        int taskFileDataVersion = dataVersionOptional.map(DataVersion::getVersion).orElse(0);
+        int appDataVersion = Configuration.APP_DATA_VERSION;
+        log.info("Current app data version is %s".formatted(appDataVersion));
+        if (appDataVersion < taskFileDataVersion)
+            throw new MigrationException("Invalid app data version. File version is %s".formatted(taskFileDataVersion));
+        if (appDataVersion == taskFileDataVersion) {
+            log.info("Data version is correct");
+            return;
+        }
+        tryApplyMigrations(taskFileDataVersion, appDataVersion);
+        updateDataVersion(appDataVersion);
+    }
+
+    private void tryApplyMigrations(int fromVersion, int toVersion) throws MigrationException {
         try {
-            Optional<DataVersion> dataVersionOptional = dataVersionService.get();
-            int taskFileDataVersion = dataVersionOptional.map(DataVersion::getVersion).orElse(0);
-            final int appDataVersion = Configuration.APP_DATA_VERSION;
-            if (appDataVersion < taskFileDataVersion)
-                throw new MigrationException(
-                        "Invalid app data version. App supports version %s but task file is version %s".formatted(
-                                appDataVersion, taskFileDataVersion
-                        )
-                );
-            if (appDataVersion == taskFileDataVersion) {
-                log.info("Data version is correct");
-                return;
-            }
-            taskBackupService.backup();
-            while (taskFileDataVersion < appDataVersion) {
-                Migration migration = findMigration(taskFileDataVersion + 1);
-                migration.migrate();
-                taskFileDataVersion++;
-                log.info("Data version was updated to {}", taskFileDataVersion);
-            }
-            DataVersion currentDataVersion = new DataVersion(appDataVersion);
-            Optional<DataVersion> updatedDataVersionOptional = dataVersionService.update(currentDataVersion);
-            if (updatedDataVersionOptional.isEmpty())
-                throw new MigrationException("Failed to update data version");
-            log.info("Data version migration completed");
+            backupData();
+            applyMigrations(fromVersion, toVersion);
         } catch (MigrationExecutionException exception) {
-            taskBackupService.restore();
+            restoreData();
             throw new MigrationException("Error while data version migration", exception);
         }
+    }
+
+    private void applyMigrations(int fromVersion, int toVersion) throws MigrationExecutionException {
+        log.info("Start migration application from data version {} to data version {}", fromVersion, toVersion);
+        while (fromVersion < toVersion) {
+            Migration migration = findMigration(fromVersion + 1);
+            migration.migrate();
+            fromVersion++;
+            log.info("Data version was updated to {}", fromVersion);
+        }
+        log.info("Migration application is complete");
+    }
+
+    private void backupData() throws MigrationException {
+        log.info("Backup data");
+        boolean isBackup = taskBackupService.backup();
+        if (!isBackup)
+            throw new MigrationException("Failed to make a backup");
+    }
+
+    private void restoreData() throws MigrationException {
+        boolean isRestore = taskBackupService.restore();
+        if (!isRestore)
+            throw new MigrationException("Failed to make a backup");
+    }
+
+    private void updateDataVersion(int newDataVersion) throws MigrationException {
+        DataVersion currentDataVersion = new DataVersion(newDataVersion);
+        Optional<DataVersion> updatedDataVersionOptional = dataVersionService.update(currentDataVersion);
+        if (updatedDataVersionOptional.isEmpty())
+            throw new MigrationException("Failed to update data version");
+        log.info("Data version migration completed");
     }
 
     private Migration findMigration(int version) throws MigrationExecutionException {
