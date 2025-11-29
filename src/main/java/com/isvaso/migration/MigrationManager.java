@@ -9,7 +9,6 @@ import com.isvaso.storage.Configuration;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,19 +18,15 @@ public class MigrationManager {
     @Getter
     private static final MigrationManager instance = new MigrationManager();
 
+    private final MigrationFactory migrationFactory = new MigrationFactory();
+
     private final TaskBackupService taskBackupService = new TaskBackupService();
 
     private final DataVersionService dataVersionService = DataVersionService.getInstance();
 
-    private final List<Migration> migrations = new ArrayList<>();
+    private final List<Migration> migrations = migrationFactory.create();
 
-    public MigrationManager() {
-        initMigrations();
-    }
-
-    private void initMigrations() {
-
-    }
+    public MigrationManager() {}
 
     public void run() throws MigrationException {
         Optional<DataVersion> dataVersionOptional = dataVersionService.get();
