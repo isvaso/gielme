@@ -26,9 +26,10 @@ public class MigrationManager {
 
     private final List<Migration> migrations = migrationFactory.create();
 
-    public MigrationManager() {}
+    public MigrationManager() {
+    }
 
-    public void run() throws MigrationException {
+    public void run() {
         Optional<DataVersion> dataVersionOptional = dataVersionService.get();
         int taskFileDataVersion = dataVersionOptional.map(DataVersion::getVersion).orElse(0);
         int appDataVersion = Configuration.APP_DATA_VERSION;
@@ -43,7 +44,7 @@ public class MigrationManager {
         updateDataVersion(appDataVersion);
     }
 
-    private void tryApplyMigrations(int fromVersion, int toVersion) throws MigrationException {
+    private void tryApplyMigrations(int fromVersion, int toVersion) {
         try {
             backupData();
             applyMigrations(fromVersion, toVersion);
@@ -53,7 +54,7 @@ public class MigrationManager {
         }
     }
 
-    private void applyMigrations(int fromVersion, int toVersion) throws MigrationExecutionException {
+    private void applyMigrations(int fromVersion, int toVersion) {
         log.info("Start migration application from data version {} to data version {}", fromVersion, toVersion);
         while (fromVersion < toVersion) {
             Migration migration = findMigration(fromVersion + 1);
@@ -64,20 +65,20 @@ public class MigrationManager {
         log.info("Migration application is complete");
     }
 
-    private void backupData() throws MigrationException {
+    private void backupData() {
         log.info("Backup data");
         boolean isBackup = taskBackupService.backup();
         if (!isBackup)
             throw new MigrationException("Failed to make a backup");
     }
 
-    private void restoreData() throws MigrationException {
+    private void restoreData() {
         boolean isRestore = taskBackupService.restore();
         if (!isRestore)
             throw new MigrationException("Failed to make a backup");
     }
 
-    private void updateDataVersion(int newDataVersion) throws MigrationException {
+    private void updateDataVersion(int newDataVersion) {
         DataVersion currentDataVersion = new DataVersion(newDataVersion);
         Optional<DataVersion> updatedDataVersionOptional = dataVersionService.update(currentDataVersion);
         if (updatedDataVersionOptional.isEmpty())
@@ -85,7 +86,7 @@ public class MigrationManager {
         log.info("Data version migration completed");
     }
 
-    private Migration findMigration(int version) throws MigrationExecutionException {
+    private Migration findMigration(int version) {
         return migrations.stream()
                 .filter(migration -> migration.version() == version)
                 .findFirst()

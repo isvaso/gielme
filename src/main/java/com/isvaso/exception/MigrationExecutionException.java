@@ -1,6 +1,6 @@
 package com.isvaso.exception;
 
-public class MigrationExecutionException extends BaseException {
+public class MigrationExecutionException extends BaseRuntimeException {
 
     public MigrationExecutionException(String message, Throwable cause) {
         super(message, cause);
