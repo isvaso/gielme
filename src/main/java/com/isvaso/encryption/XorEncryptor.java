@@ -14,6 +14,7 @@ public class XorEncryptor implements Encryptor {
         return process(data);
     }
 
+    // TODO: delete {} in if/for
     private String process(String data) {
         if(data == null || data.isEmpty()) {
             return data;

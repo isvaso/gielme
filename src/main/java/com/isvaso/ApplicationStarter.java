@@ -1,11 +1,12 @@
 package com.isvaso;
 
+import com.isvaso.controller.IndexController;
 import com.isvaso.ioc.configuration.BeanConfigurationManager;
 import com.isvaso.exception.IocException;
 import com.isvaso.exception.MigrationException;
 import com.isvaso.ioc.BeanContainer;
 import com.isvaso.migration.MigrationManager;
-import com.isvaso.view.Screen;
+import com.isvaso.screen.Screen;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -13,7 +14,6 @@ public class ApplicationStarter {
 
     public static void start() {
         try {
-            runMigrations();
             BeanContainer container = buildContainer();
             startApplication(container);
         } catch (MigrationException migrationException) {
@@ -28,10 +28,6 @@ public class ApplicationStarter {
         }
     }
 
-    private static void runMigrations() {
-        MigrationManager.getInstance().run();
-    }
-
     private static BeanContainer buildContainer() {
         BeanContainer beanContainer = new BeanContainer();
         new BeanConfigurationManager().configure(beanContainer);
@@ -39,8 +35,9 @@ public class ApplicationStarter {
     }
 
     private static void startApplication(BeanContainer container) {
-        Screen screen = container.getBean(Screen.class);
+        container.getBean(MigrationManager.class).run();
+        IndexController indexController = container.getBean(IndexController.class);
         log.info("Gielme is working!");
-        screen.start();
+        indexController.show();
     }
 }

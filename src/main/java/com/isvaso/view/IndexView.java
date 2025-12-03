@@ -1,16 +1,15 @@
 package com.isvaso.view;
 
-import com.isvaso.controller.IndexController;
+import com.isvaso.model.Task;
+import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
+@RequiredArgsConstructor
 public class IndexView extends BaseView {
 
     @Override
-    public IndexController getController() {
-        return new IndexController(this);
-    }
-
-    @Override
-    public String render() {
+    public String render(List<Task> dataModel) {
         return LOGO +
                """
                    

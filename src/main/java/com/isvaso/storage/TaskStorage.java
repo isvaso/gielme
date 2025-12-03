@@ -1,21 +1,22 @@
 package com.isvaso.storage;
 
 import com.isvaso.encryption.Encryptor;
-import com.isvaso.encryption.XorEncryptor;
 import com.isvaso.exception.FileManagerException;
 import com.isvaso.model.Task;
 import com.isvaso.serialization.TaskSerializer;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@AllArgsConstructor
 public class TaskStorage {
 
-    private final FileManager fileManager = new FileManager();
-    private final TaskSerializer serializer = new TaskSerializer();
-    private final Encryptor encryptor = new XorEncryptor();
+    private final FileManager fileManager;
+    private final TaskSerializer serializer;
+    private final Encryptor encryptor;
 
     public void add(Task task) {
         List<Task> tasks = get();

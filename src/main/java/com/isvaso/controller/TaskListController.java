@@ -1,13 +1,26 @@
 package com.isvaso.controller;
 
-import com.isvaso.model.Task;
+import com.isvaso.screen.Screen;
+import com.isvaso.service.TaskService;
+import com.isvaso.view.TaskListView;
 import com.isvaso.view.View;
-
-import java.util.List;
 
 public class TaskListController extends BaseController {
 
-    public TaskListController(View view) {
-        super(view);
+    public TaskListController(
+            TaskService service,
+            View view, Screen screen
+    ) {
+        super(service, view, screen);
+    }
+
+    @Override
+    protected String render() {
+        return view.render(service.get());
+    }
+
+    @Override
+    protected void back() {
+       show();
     }
 }

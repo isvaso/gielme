@@ -6,28 +6,21 @@ import com.isvaso.model.DataVersion;
 import com.isvaso.service.DataVersionService;
 import com.isvaso.service.TaskBackupService;
 import com.isvaso.storage.StorageProperties;
-import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
+@RequiredArgsConstructor
 public class MigrationManager {
 
-    @Getter
-    private static final MigrationManager instance = new MigrationManager();
+    private final TaskBackupService taskBackupService;
 
-    private final MigrationFactory migrationFactory = new MigrationFactory();
+    private final DataVersionService dataVersionService;
 
-    private final TaskBackupService taskBackupService = new TaskBackupService();
-
-    private final DataVersionService dataVersionService = DataVersionService.getInstance();
-
-    private final List<Migration> migrations = migrationFactory.create();
-
-    public MigrationManager() {
-    }
+    private final List<Migration> migrations = List.of();
 
     public void run() {
         Optional<DataVersion> dataVersionOptional = dataVersionService.get();

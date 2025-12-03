@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TaskRepository {
 
-    private final TaskStorage storage = new TaskStorage();
+    private final TaskStorage storage;
 
     public Optional<Task> add(Task task) throws RepositoryException {
         if(task == null)

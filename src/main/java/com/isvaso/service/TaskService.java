@@ -3,7 +3,7 @@ package com.isvaso.service;
 import com.isvaso.exception.RepositoryException;
 import com.isvaso.model.Task;
 import com.isvaso.repository.TaskRepository;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
@@ -11,15 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
+@AllArgsConstructor
 public class TaskService {
 
-    @Getter
-    private static final TaskService instance = new TaskService();
-
-    private final TaskRepository repository = new TaskRepository();
-
-    private TaskService() {
-    }
+    private final TaskRepository repository;
 
     public Optional<Task> add(Task task) {
         try {

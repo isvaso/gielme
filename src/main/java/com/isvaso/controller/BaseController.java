@@ -1,48 +1,52 @@
 package com.isvaso.controller;
 
-import com.isvaso.model.Task;
+import com.isvaso.screen.Screen;
 import com.isvaso.service.TaskService;
-import com.isvaso.view.*;
+import com.isvaso.view.IndexView;
+import com.isvaso.view.View;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 abstract class BaseController implements Controller {
 
-    protected final TaskService service = TaskService.getInstance();
+    protected final TaskService service;
 
     protected final View view;
 
+    protected final Screen screen;
+
     @Override
-    public View handleCommand(String value) {
-        Optional<CommandEnum> commandOptional = CommandEnum.getByKey(value);
+    public void show() {
+        screen.print(render());
+        String cmd = screen.readLine();
+        handleCommand(cmd);
+    }
+
+    protected abstract String render();
+
+    public void handleCommand(String cmd) {
+        Optional<CommandEnum> commandOptional = CommandEnum.getByKey(cmd);
         if (commandOptional.isEmpty())
-            return handleUserInput(value);
+            handleUserInput(cmd);
         switch (commandOptional.get()) {
             case QUIT:
                 System.exit(0);
             case BACK:
-                return back();
+                back();
             default:
-                return handleChoseCommand(value);
+                handleChoseCommand(cmd);
         }
     }
 
-    protected View back() {
-        return new IndexView();
+    protected abstract void back();
+
+    protected void handleChoseCommand(String command) {
+        show();
     }
 
-    protected View handleChoseCommand(String command) {
-        return view;
-    }
-
-    protected View handleUserInput(String input) {
-        return view;
-    }
-
-    public List<Task> getAll() {
-        return service.get();
+    protected void handleUserInput(String input) {
+        show();
     }
 }
