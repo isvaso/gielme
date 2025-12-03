@@ -26,7 +26,7 @@ public class TaskSerializer {
     public String serialize(Task task) {
         return new StringBuilder()
                 .append(task.getName())
-                .append(SerializationConfig.DELIMITER)
+                .append(SerializationProperties.DELIMITER)
                 .append(task.getState())
                 .toString();
     }
@@ -48,7 +48,7 @@ public class TaskSerializer {
     }
 
     public Optional<Task> deserialize(String string) throws SerializerException {
-        String[] stringValues = string.split(SerializationConfig.DELIMITER);
+        String[] stringValues = string.split(SerializationProperties.DELIMITER);
         if (stringValues.length < 2) {
             throw new SerializerException("Invalid data for Task deserialization: %s".formatted(string));
         }

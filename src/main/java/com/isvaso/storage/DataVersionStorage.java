@@ -19,7 +19,7 @@ public class DataVersionStorage {
 
     public Optional<DataVersion> get() {
         try {
-            String dataFromFile = fileManager.read(Configuration.DATA_VERSION_FILE_PATH);
+            String dataFromFile = fileManager.read(StorageProperties.DATA_VERSION_FILE_PATH);
             String decryptedData = encryptor.decrypt(dataFromFile);
             return serializer.deserialize(decryptedData);
         } catch (FileManagerException | SerializerException exception) {
@@ -32,7 +32,7 @@ public class DataVersionStorage {
         try {
             String serializedTasks = serializer.serialize(dataVersion);
             String encryptedData = encryptor.encrypt(serializedTasks);
-            fileManager.write(Configuration.TASKS_FILE_PATH, encryptedData);
+            fileManager.write(StorageProperties.TASKS_FILE_PATH, encryptedData);
         } catch (FileManagerException | SerializerException exception) {
             log.error("Error while updating tasks", exception);
         }

@@ -23,7 +23,7 @@ public class TaskStorage {
         String serializedTasks = serializer.serializeList(tasks);
         String encryptedTasks = encryptor.encrypt(serializedTasks);
         try {
-            fileManager.write(Configuration.TASKS_FILE_PATH, encryptedTasks);
+            fileManager.write(StorageProperties.TASKS_FILE_PATH, encryptedTasks);
         } catch (FileManagerException exception) {
             log.error("Error while adding task", exception);
         }
@@ -31,7 +31,7 @@ public class TaskStorage {
 
     public List<Task> get() {
         try {
-            String dataFromFile = fileManager.read(Configuration.TASKS_FILE_PATH);
+            String dataFromFile = fileManager.read(StorageProperties.TASKS_FILE_PATH);
             String decryptedData = encryptor.decrypt(dataFromFile);
             return serializer.deserializeList(decryptedData);
         } catch (FileManagerException exception) {
@@ -44,7 +44,7 @@ public class TaskStorage {
         try {
             String serializedTasks = serializer.serializeList(tasks);
             String encryptedData = encryptor.encrypt(serializedTasks);
-            fileManager.write(Configuration.TASKS_FILE_PATH, encryptedData);
+            fileManager.write(StorageProperties.TASKS_FILE_PATH, encryptedData);
         } catch (FileManagerException exception) {
             log.error("Error while updating tasks", exception);
         }
@@ -52,7 +52,7 @@ public class TaskStorage {
 
     public boolean backup() {
         try {
-            fileManager.copy(Configuration.TASKS_FILE_PATH, Configuration.TASK_BACKUP_FILE_PATH);
+            fileManager.copy(StorageProperties.TASKS_FILE_PATH, StorageProperties.TASK_BACKUP_FILE_PATH);
             return true;
         } catch (FileManagerException exception) {
             log.error("Error while backup task", exception);
@@ -62,9 +62,9 @@ public class TaskStorage {
 
     public boolean restore() {
         try {
-            fileManager.delete(Configuration.TASKS_FILE_PATH);
-            fileManager.copy(Configuration.TASK_BACKUP_FILE_PATH, Configuration.TASKS_FILE_PATH);
-            fileManager.delete(Configuration.TASK_BACKUP_FILE_PATH);
+            fileManager.delete(StorageProperties.TASKS_FILE_PATH);
+            fileManager.copy(StorageProperties.TASK_BACKUP_FILE_PATH, StorageProperties.TASKS_FILE_PATH);
+            fileManager.delete(StorageProperties.TASK_BACKUP_FILE_PATH);
             return true;
         } catch (FileManagerException exception) {
             log.error("Error while backup task", exception);

@@ -1,7 +1,7 @@
-package com.isvaso.configuration;
+package com.isvaso.ioc.configuration;
 
 import com.isvaso.ioc.BeanContainer;
-import com.isvaso.sceen.Screen;
+import com.isvaso.view.Screen;
 
 public class ScreenConfiguration implements BeanConfiguration {
 

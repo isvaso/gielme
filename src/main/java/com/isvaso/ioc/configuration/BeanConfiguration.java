@@ -1,4 +1,4 @@
-package com.isvaso.configuration;
+package com.isvaso.ioc.configuration;
 
 import com.isvaso.ioc.BeanContainer;
 

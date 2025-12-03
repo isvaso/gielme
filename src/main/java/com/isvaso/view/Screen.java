@@ -1,8 +1,6 @@
-package com.isvaso.sceen;
+package com.isvaso.view;
 
 import com.isvaso.controller.Controller;
-import com.isvaso.view.View;
-import com.isvaso.view.IndexView;
 
 import java.util.Scanner;
 

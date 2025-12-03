@@ -1,6 +1,6 @@
 package com.isvaso.serialization;
 
-public class SerializationConfig {
+public class SerializationProperties {
 
     public static final String DELIMITER = "/";
 }

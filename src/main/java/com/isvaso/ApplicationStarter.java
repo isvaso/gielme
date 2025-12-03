@@ -1,11 +1,11 @@
 package com.isvaso;
 
-import com.isvaso.configuration.BeanConfigurationManager;
+import com.isvaso.ioc.configuration.BeanConfigurationManager;
 import com.isvaso.exception.IocException;
 import com.isvaso.exception.MigrationException;
 import com.isvaso.ioc.BeanContainer;
 import com.isvaso.migration.MigrationManager;
-import com.isvaso.sceen.Screen;
+import com.isvaso.view.Screen;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

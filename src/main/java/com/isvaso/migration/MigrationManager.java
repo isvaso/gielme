@@ -5,7 +5,7 @@ import com.isvaso.exception.MigrationExecutionException;
 import com.isvaso.model.DataVersion;
 import com.isvaso.service.DataVersionService;
 import com.isvaso.service.TaskBackupService;
-import com.isvaso.storage.Configuration;
+import com.isvaso.storage.StorageProperties;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +32,7 @@ public class MigrationManager {
     public void run() {
         Optional<DataVersion> dataVersionOptional = dataVersionService.get();
         int taskFileDataVersion = dataVersionOptional.map(DataVersion::getVersion).orElse(0);
-        int appDataVersion = Configuration.APP_DATA_VERSION;
+        int appDataVersion = StorageProperties.APP_DATA_VERSION;
         log.info("Current app data version is %s".formatted(appDataVersion));
         if (appDataVersion < taskFileDataVersion)
             throw new MigrationException("Invalid app data version. File version is %s".formatted(taskFileDataVersion));
