@@ -14,7 +14,6 @@ public class BeanContainer implements BeanFactory {
 
     public <T> void registerSingleton(Class<T> type, BeanCreator<T> creator) {
         register(type, ScopeEnum.SINGLETON, creator);
-
     }
 
     public <T> void registerPrototype(Class<T> type, BeanCreator<T> creator) {

@@ -10,15 +10,8 @@ import java.util.Optional;
 
 public class IndexController extends BaseController {
 
-    private final Controller taskListController;
-
-    private final Controller taskCreateController;
-
-    private final Controller taskSolveController;
-
-    private final Controller taskDeleteController;
-
     public IndexController(
+            ControllerRegistry registry,
             TaskService taskService,
             View view,
             Screen screen,
@@ -26,11 +19,7 @@ public class IndexController extends BaseController {
             Controller taskCreateController,
             Controller taskSolveController,
             Controller taskDeleteController) {
-        super(taskService, view, screen);
-        this.taskListController = taskListController;
-        this.taskCreateController = taskCreateController;
-        this.taskSolveController = taskSolveController;
-        this.taskDeleteController = taskDeleteController;
+        super(registry, taskService, view, screen);
     }
 
     @Override
@@ -55,15 +44,15 @@ public class IndexController extends BaseController {
             show();
         switch (commandOptional.get()) {
             case LIST:
-                taskListController.show();
+//                taskListController.show();
             case CREATE:
-                taskCreateController.show();
+//                taskCreateController.show();
             case SOLVE:
-                taskSolveController.show();
+//                taskSolveController.show();
             case DELETE:
-                taskDeleteController.show();
+//                taskDeleteController.show();
             default:
-                taskListController.show();
+//                taskListController.show();
         }
     }
 }

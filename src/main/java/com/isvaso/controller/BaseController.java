@@ -8,14 +8,34 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 abstract class BaseController implements Controller {
+
+    protected final ControllerRegistry registry;
 
     protected final TaskService service;
 
     protected final View view;
 
     protected final Screen screen;
+
+    public BaseController(
+            ControllerRegistry registry,
+            TaskService service,
+            View view,
+            Screen screen
+    ) {
+        this.registry = registry;
+        this.service = service;
+        this.view = view;
+        this.screen = screen;
+        register();
+    }
+
+    protected void register() {
+        registry.add(getName(), this);
+    }
+
+    protected abstract ControllerNameEnum getName();
 
     @Override
     public void show() {

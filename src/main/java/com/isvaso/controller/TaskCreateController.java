@@ -11,11 +11,12 @@ import lombok.RequiredArgsConstructor;
 public class TaskCreateController extends BaseController {
 
     public TaskCreateController(
+            ControllerRegistry registry,
             TaskService service,
             View view,
             Screen screen
     ) {
-        super(service, view, screen);
+        super(registry, service, view, screen);
     }
 
     @Override

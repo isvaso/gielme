@@ -11,11 +11,12 @@ import java.util.List;
 public class TaskDeleteController extends BaseController {
 
     public TaskDeleteController(
+            ControllerRegistry registry,
             TaskService service,
             View view,
             Screen screen
     ) {
-        super(service, view, screen);
+        super(registry, service, view, screen);
     }
 
     @Override
