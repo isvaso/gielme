@@ -17,6 +17,11 @@ public class TaskSolveController extends BaseController {
     }
 
     @Override
+    public ControllerNameEnum getName() {
+        return ControllerNameEnum.LIST;
+    }
+
+    @Override
     protected String render() {
         return view.render(service.get());
     }

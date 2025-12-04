@@ -34,6 +34,11 @@ public class IndexController extends BaseController {
     }
 
     @Override
+    public ControllerNameEnum getName() {
+        return ControllerNameEnum.INDEX;
+    }
+
+    @Override
     protected String render() {
         return view.render(new ArrayList<>());
     }

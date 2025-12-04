@@ -19,6 +19,11 @@ public class TaskDeleteController extends BaseController {
     }
 
     @Override
+    public ControllerNameEnum getName() {
+        return ControllerNameEnum.DELETE;
+    }
+
+    @Override
     protected String render() {
         return view.render(service.get());
     }
