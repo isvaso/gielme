@@ -1,6 +1,7 @@
 package com.isvaso.serialization;
 
-public class SerializationConfig {
+// TODO: non static for testing
+public class SerializationProperties {
 
     public static final String DELIMITER = "/";
 }

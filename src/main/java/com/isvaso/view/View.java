@@ -1,10 +1,9 @@
 package com.isvaso.view;
 
-import com.isvaso.controller.Controller;
+import com.isvaso.model.Task;
+
+import java.util.List;
 
 public interface View {
-
-    Controller getController();
-
-    String render();
+    String render(List<Task> dataModel);
 }

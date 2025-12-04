@@ -1,26 +1,49 @@
 package com.isvaso.controller;
 
 import com.isvaso.model.Task;
-import com.isvaso.view.*;
+import com.isvaso.screen.Screen;
+import com.isvaso.service.TaskService;
+import com.isvaso.view.TaskDeleteView;
+import com.isvaso.view.View;
 
 import java.util.List;
 
 public class TaskDeleteController extends BaseController {
 
-    public TaskDeleteController(View view) {
-        super(view);
+    public TaskDeleteController(
+            ControllerRegistry registry,
+            TaskService service,
+            View view,
+            Screen screen
+    ) {
+        super(registry, service, view, screen);
     }
 
     @Override
-    protected View handleUserInput(String input) {
-        if(!input.matches("\\d+"))
-            return view;
+    public ControllerNameEnum getName() {
+        return ControllerNameEnum.DELETE;
+    }
+
+    @Override
+    protected String render() {
+        return view.render(service.get());
+    }
+
+    @Override
+    protected void back() {
+        registry.get(ControllerNameEnum.INDEX).show();
+    }
+
+    @Override
+    protected void handleUserInput(String input) {
+        if (!input.matches("\\d+"))
+            show();
         int index = Integer.parseInt(input);
         List<Task> tasks = service.get();
-        if(index >= tasks.size())
-            return view;
+        if (index >= tasks.size())
+            show();
         tasks.remove(index);
         service.update(tasks);
-        return view;
+        show();
     }
 }

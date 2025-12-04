@@ -10,7 +10,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DataVersionRepository {
 
-    private final DataVersionStorage storage = new DataVersionStorage();
+    private final DataVersionStorage storage;
 
     public Optional<DataVersion> get() {
         return storage.get();

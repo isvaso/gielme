@@ -1,23 +1,18 @@
 package com.isvaso.view;
 
-import com.isvaso.controller.TaskListController;
 import com.isvaso.model.Task;
 import com.isvaso.model.TaskState;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 public class TaskListView extends BaseView {
 
     @Override
-    public TaskListController getController() {
-        return new TaskListController(this);
-    }
-
-    @Override
-    public String render() {
-        List<Task> tasks = getController().getAll();
+    public String render(List<Task> dataModel) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Task task : tasks) {
+        for (Task task : dataModel) {
             String renderedTask = renderTask(task);
             stringBuilder.append(renderedTask).append("\n");
         }

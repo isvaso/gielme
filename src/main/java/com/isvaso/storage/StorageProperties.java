@@ -2,7 +2,8 @@ package com.isvaso.storage;
 
 import java.nio.file.Path;
 
-public class Configuration {
+// TODO: non static for testing
+public class StorageProperties {
 
     public static final int APP_DATA_VERSION = 0;
 
@@ -26,5 +27,5 @@ public class Configuration {
 
     public static final Path DATA_VERSION_FILE_PATH = APP_PATH.resolve(DATA_VERSION_FILE_NAME + FILE_EXTENSION);
 
-    private Configuration() {}
+    private StorageProperties() {}
 }
