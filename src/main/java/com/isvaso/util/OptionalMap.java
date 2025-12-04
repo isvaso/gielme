@@ -3,6 +3,7 @@ package com.isvaso.util;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public class OptionalMap<K, V> {
 
@@ -42,5 +43,9 @@ public class OptionalMap<K, V> {
 
     public void clear() {
         map.clear();
+    }
+
+    public Set<K> keySet() {
+        return map.keySet();
     }
 }

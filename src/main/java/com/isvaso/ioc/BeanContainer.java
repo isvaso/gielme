@@ -26,6 +26,17 @@ public class BeanContainer implements BeanFactory {
         definitions.put(type, new BeanDefinition<>(type, scope, creator));
     }
 
+    public void initializeSingletons() {
+        definitions.keySet().forEach(type -> {
+            BeanDefinition<?> def = definitions.get(type)
+                    .orElseThrow(() -> new IocException(
+                            "BeanDefinition not found for type '%s' during initialization".formatted(type.getName())
+                    ));
+            if (def.scope() == ScopeEnum.SINGLETON)
+                getBean(def.type());
+        });
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public <T> T getBean(Class<T> type) {

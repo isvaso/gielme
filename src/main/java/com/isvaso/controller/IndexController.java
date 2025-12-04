@@ -14,11 +14,7 @@ public class IndexController extends BaseController {
             ControllerRegistry registry,
             TaskService taskService,
             View view,
-            Screen screen,
-            Controller taskListController,
-            Controller taskCreateController,
-            Controller taskSolveController,
-            Controller taskDeleteController) {
+            Screen screen) {
         super(registry, taskService, view, screen);
     }
 
@@ -44,15 +40,15 @@ public class IndexController extends BaseController {
             show();
         switch (commandOptional.get()) {
             case LIST:
-//                taskListController.show();
+                registry.get(ControllerNameEnum.LIST).show();
             case CREATE:
-//                taskCreateController.show();
+                registry.get(ControllerNameEnum.CREATE).show();
             case SOLVE:
-//                taskSolveController.show();
+                registry.get(ControllerNameEnum.SOLVE).show();
             case DELETE:
-//                taskDeleteController.show();
+                registry.get(ControllerNameEnum.DELETE).show();
             default:
-//                taskListController.show();
+                show();
         }
     }
 }

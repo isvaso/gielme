@@ -31,7 +31,7 @@ public class TaskCreateController extends BaseController {
 
     @Override
     protected void back() {
-       show();
+       registry.get(ControllerNameEnum.INDEX).show();
     }
 
     @Override

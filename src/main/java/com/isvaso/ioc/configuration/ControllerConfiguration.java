@@ -11,20 +11,16 @@ public class ControllerConfiguration implements BeanConfiguration {
     @Override
     public void configure(BeanContainer beanContainer) {
         beanContainer.registerSingleton(ControllerRegistry.class, bc -> new ControllerRegistry());
-        beanContainer.registerPrototype(
+        beanContainer.registerSingleton(
                 IndexController.class,
                 bc -> new IndexController(
                         bc.getBean(ControllerRegistry.class),
                         bc.getBean(TaskService.class),
                         bc.getBean(IndexView.class),
-                        bc.getBean(Screen.class),
-                        bc.getBean(TaskListController.class),
-                        bc.getBean(TaskCreateController.class),
-                        bc.getBean(TaskSolveController.class),
-                        bc.getBean(TaskDeleteController.class)
+                        bc.getBean(Screen.class)
                 )
         );
-        beanContainer.registerPrototype(
+        beanContainer.registerSingleton(
                 TaskListController.class,
                 bc -> new TaskListController(
                         bc.getBean(ControllerRegistry.class),
@@ -33,7 +29,7 @@ public class ControllerConfiguration implements BeanConfiguration {
                         bc.getBean(Screen.class)
                 )
         );
-        beanContainer.registerPrototype(
+        beanContainer.registerSingleton(
                 TaskCreateController.class,
                 bc -> new TaskCreateController(
                         bc.getBean(ControllerRegistry.class),
@@ -42,7 +38,7 @@ public class ControllerConfiguration implements BeanConfiguration {
                         bc.getBean(Screen.class)
                 )
         );
-        beanContainer.registerPrototype(
+        beanContainer.registerSingleton(
                 TaskSolveController.class,
                 bc -> new TaskSolveController(
                         bc.getBean(ControllerRegistry.class),
@@ -51,7 +47,7 @@ public class ControllerConfiguration implements BeanConfiguration {
                         bc.getBean(Screen.class)
                 )
         );
-        beanContainer.registerPrototype(
+        beanContainer.registerSingleton(
                 TaskDeleteController.class,
                 bc -> new TaskDeleteController(
                         bc.getBean(ControllerRegistry.class),

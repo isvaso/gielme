@@ -31,6 +31,7 @@ public class ApplicationStarter {
     private static BeanContainer buildContainer() {
         BeanContainer beanContainer = new BeanContainer();
         new BeanConfigurationManager().configure(beanContainer);
+        beanContainer.initializeSingletons();
         return beanContainer;
     }
 
