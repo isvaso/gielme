@@ -193,4 +193,254 @@ class FileManagerTest {
             }
         }
     }
+
+    @Nested
+    class Write {
+
+        @Test
+        void shouldThrowFileManagerException_whenFilePathIsNull() {
+            Path filePath = null;
+            String data = "File contents";
+
+            assertThrows(FileManagerException.class, () -> fileManager.write(filePath, data));
+        }
+
+        @Test
+        void shouldNotThrowException_whenDirectoryIsNull() {
+            Path filePath = Path.of("file.txt");
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(filePath)).thenReturn(true);
+
+                filesMock.when(() -> Files.writeString(filePath, fileContents)).thenReturn(filePath);
+
+                assertDoesNotThrow(() -> fileManager.write(filePath, fileContents));
+            }
+        }
+
+        @Test
+        void shouldNotThrowException_whenDirectoryDoesNotExist() {
+            Path filePath = Path.of("/directory/file.txt");
+            Path parent = filePath.getParent();
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(parent)).thenReturn(false);
+
+                assertDoesNotThrow(() -> fileManager.write(filePath, fileContents));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenDirectoryIsNotDirectory() {
+            Path filePath = Path.of("/directory.txt/file.txt");
+            Path parent = filePath.getParent();
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(parent)).thenReturn(true);
+                filesMock.when(() -> Files.isDirectory(parent)).thenReturn(false);
+                filesMock.when(() -> Files.isExecutable(parent)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(parent)).thenReturn(true);
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(filePath)).thenReturn(true);
+
+                assertThrows(FileManagerException.class, () -> fileManager.write(filePath, fileContents));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenDirectoryIsNotWritable() {
+            Path filePath = Path.of("/directory/file.txt");
+            Path parent = filePath.getParent();
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(parent)).thenReturn(true);
+                filesMock.when(() -> Files.isDirectory(parent)).thenReturn(true);
+                filesMock.when(() -> Files.isExecutable(parent)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(parent)).thenReturn(false);
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(filePath)).thenReturn(true);
+
+                assertThrows(FileManagerException.class, () -> fileManager.write(filePath, fileContents));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenDirectoryIsNotExecutable() {
+            Path filePath = Path.of("/directory/file.txt");
+            Path parent = filePath.getParent();
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(parent)).thenReturn(true);
+                filesMock.when(() -> Files.isDirectory(parent)).thenReturn(true);
+                filesMock.when(() -> Files.isExecutable(parent)).thenReturn(false);
+                filesMock.when(() -> Files.isWritable(parent)).thenReturn(true);
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(filePath)).thenReturn(true);
+
+                assertThrows(FileManagerException.class, () -> fileManager.write(filePath, fileContents));
+            }
+        }
+
+        @Test
+        void shouldNotThrowException_whenFileIsDirectory() {
+            Path filePath = Path.of("file.txt");
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(false);
+
+                filesMock.when(() -> Files.writeString(filePath, fileContents)).thenReturn(filePath);
+                ;
+
+                assertDoesNotThrow(() -> fileManager.write(filePath, fileContents));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenFileIsNotWritable() {
+            Path filePath = Path.of("/directory/file.txt");
+            Path parent = filePath.getParent();
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(parent)).thenReturn(true);
+                filesMock.when(() -> Files.isDirectory(parent)).thenReturn(true);
+                filesMock.when(() -> Files.isExecutable(parent)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(parent)).thenReturn(true);
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(filePath)).thenReturn(false);
+
+                assertThrows(FileManagerException.class, () -> fileManager.write(filePath, fileContents));
+            }
+        }
+
+        @Test
+        void shouldCreateParentDirectory_whenParentDirectoryDoesNotExist() throws FileManagerException {
+            Path filePath = Path.of("/directory/file.txt");
+            Path parent = filePath.getParent();
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.createDirectories(parent)).thenReturn(parent);
+                filesMock.when(() -> Files.writeString(filePath, fileContents)).thenReturn(filePath);
+
+                fileManager.write(filePath, fileContents);
+
+                filesMock.verify(() -> Files.createDirectories(parent));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenCreatingParentDirectoryFails() {
+            Path filePath = Path.of("/directory/file.txt");
+            Path parent = filePath.getParent();
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.createDirectories(parent)).thenThrow(new IOException());
+
+                FileManagerException exception = assertThrows(
+                        FileManagerException.class,
+                        () -> fileManager.write(filePath, fileContents)
+                );
+
+                assertInstanceOf(IOException.class, exception.getCause());
+                filesMock.verify(() -> Files.writeString(any(), any()), never());
+            }
+        }
+
+        @Test
+        void shouldWriteString_whenWriteIsInvoked() {
+            Path filePath = Path.of("file.txt");
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(false);
+
+                filesMock.when(() -> Files.writeString(
+                        filePath,
+                        fileContents,
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.TRUNCATE_EXISTING
+                )).thenReturn(filePath);
+
+                assertDoesNotThrow(() -> fileManager.write(filePath, fileContents));
+
+                filesMock.verify(() -> Files.writeString(
+                        filePath,
+                        fileContents,
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.TRUNCATE_EXISTING
+                ));
+            }
+        }
+
+        @Test
+        void shouldWriteExactDataToFile_whenWriteIsInvoked() throws FileManagerException {
+            Path filePath = Path.of("file.txt");
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(false);
+                filesMock.when(() -> Files.writeString(
+                        filePath,
+                        fileContents,
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.TRUNCATE_EXISTING
+                )).thenReturn(filePath);
+
+                fileManager.write(filePath, fileContents);
+
+                filesMock.verify(() -> Files.writeString(
+                        filePath,
+                        fileContents,
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.TRUNCATE_EXISTING
+                ));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenWritingFails() {
+            Path filePath = Path.of("file.txt");
+            String fileContents = "File contents";
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(false);
+                filesMock.when(() -> Files.writeString(
+                        filePath,
+                        fileContents,
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.TRUNCATE_EXISTING
+                )).thenThrow(new IOException("IO error"));
+
+                FileManagerException exception = assertThrows(
+                        FileManagerException.class,
+                        () -> fileManager.write(filePath, fileContents)
+                );
+
+                assertInstanceOf(IOException.class, exception.getCause());
+                filesMock.verify(() -> Files.writeString(filePath,
+                        fileContents,
+                        StandardOpenOption.CREATE,
+                        StandardOpenOption.TRUNCATE_EXISTING
+                ));
+            }
+        }
+    }
+
+    // TODO:
+    //  2 Tests for copy(), check for file
+    //  3 Tests for delete(), check for file
 }
