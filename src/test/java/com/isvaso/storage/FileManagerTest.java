@@ -8,6 +8,7 @@ import org.mockito.MockedStatic;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -423,7 +424,7 @@ class FileManagerTest {
                         fileContents,
                         StandardOpenOption.CREATE,
                         StandardOpenOption.TRUNCATE_EXISTING
-                )).thenThrow(new IOException("IO error"));
+                )).thenThrow(new IOException());
 
                 FileManagerException exception = assertThrows(
                         FileManagerException.class,
@@ -431,7 +432,8 @@ class FileManagerTest {
                 );
 
                 assertInstanceOf(IOException.class, exception.getCause());
-                filesMock.verify(() -> Files.writeString(filePath,
+                filesMock.verify(() -> Files.writeString(
+                        filePath,
                         fileContents,
                         StandardOpenOption.CREATE,
                         StandardOpenOption.TRUNCATE_EXISTING
@@ -440,7 +442,120 @@ class FileManagerTest {
         }
     }
 
+    @Nested
+    class Copy {
+
+        @Test
+        void shouldThrowFileManagerException_whenFilePathIsNull() {
+            Path fromPath = Path.of("/directory/source.txt");
+            Path toPath = Path.of("/directory/target.txt");
+
+            assertThrows(FileManagerException.class, () -> fileManager.copy(fromPath, toPath));
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenFileDoesNotExist() {
+            Path fromPath = Path.of("/directory/source.txt");
+            Path toPath = Path.of("/directory/target.txt");
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(fromPath)).thenReturn(false);
+                filesMock.when(() -> Files.isRegularFile(fromPath)).thenReturn(true);
+                filesMock.when(() -> Files.isReadable(fromPath)).thenReturn(true);
+
+                assertThrows(FileManagerException.class, () -> fileManager.copy(fromPath, toPath));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenFileIsNotRegular() {
+            Path fromPath = Path.of("/directory/source.txt");
+            Path toPath = Path.of("/directory/target.txt");
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(fromPath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(fromPath)).thenReturn(false);
+                filesMock.when(() -> Files.isReadable(fromPath)).thenReturn(true);
+
+                assertThrows(FileManagerException.class, () -> fileManager.copy(fromPath, toPath));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenFileIsNotReadable() {
+            Path fromPath = Path.of("/directory/source.txt");
+            Path toPath = Path.of("/directory/target.txt");
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(fromPath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(fromPath)).thenReturn(true);
+                filesMock.when(() -> Files.isReadable(fromPath)).thenReturn(false);
+
+                assertThrows(FileManagerException.class, () -> fileManager.copy(fromPath, toPath));
+            }
+        }
+
+        @Test
+        void shouldCopyFileWithReplaceExisting_whenCopyIsInvoked() throws FileManagerException {
+            Path fromPath = Path.of("/directory/source.txt");
+            Path toPath = Path.of("/directory/target.txt");
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(fromPath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(fromPath)).thenReturn(true);
+                filesMock.when(() -> Files.isReadable(fromPath)).thenReturn(true);
+                filesMock.when(() -> Files.copy(
+                        fromPath,
+                        toPath,
+                        StandardCopyOption.REPLACE_EXISTING
+                )).thenReturn(toPath);
+
+                fileManager.copy(fromPath, toPath);
+
+                filesMock.verify(() -> Files.copy(
+                        fromPath,
+                        toPath,
+                        StandardCopyOption.REPLACE_EXISTING
+                ));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenCopyingFails() {
+            Path fromPath = Path.of("/directory/source.txt");
+            Path toPath = Path.of("/directory/target.txt");
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(fromPath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(fromPath)).thenReturn(true);
+                filesMock.when(() -> Files.isReadable(fromPath)).thenReturn(true);
+
+                filesMock.when(() -> Files.copy(
+                        fromPath,
+                        toPath,
+                        StandardCopyOption.REPLACE_EXISTING
+                )).thenThrow(new IOException());
+
+                FileManagerException exception = assertThrows(
+                        FileManagerException.class,
+                        () -> fileManager.copy(fromPath, toPath)
+                );
+
+                assertInstanceOf(IOException.class, exception.getCause());
+                filesMock.verify(() -> Files.copy(
+                        fromPath,
+                        toPath,
+                        StandardCopyOption.REPLACE_EXISTING
+                ));
+            }
+        }
+    }
+
+    @Nested
+    class Delete {
+
+    }
+
     // TODO:
-    //  2 Tests for copy(), check for file
     //  3 Tests for delete(), check for file
 }
