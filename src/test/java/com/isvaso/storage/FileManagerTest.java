@@ -554,8 +554,87 @@ class FileManagerTest {
     @Nested
     class Delete {
 
-    }
+        @Test
+        void shouldThrowFileManagerException_whenFilePathIsNull() {
+            Path filePath = null;
 
-    // TODO:
-    //  3 Tests for delete(), check for file
+            assertThrows(FileManagerException.class, () -> fileManager.delete(filePath));
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenFileDoesNotExist() {
+            Path filePath = Path.of("/directory/file.txt");
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(false);
+                filesMock.when(() -> Files.isRegularFile(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isReadable(filePath)).thenReturn(true);
+
+                assertThrows(FileManagerException.class, () -> fileManager.delete(filePath));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenFileIsNotRegular() {
+            Path filePath = Path.of("/directory/file.txt");
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(filePath)).thenReturn(false);
+                filesMock.when(() -> Files.isReadable(filePath)).thenReturn(true);
+
+                assertThrows(FileManagerException.class, () -> fileManager.delete(filePath));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenFileIsNotWritable() {
+            Path filePath = Path.of("/directory/file.txt");
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(filePath)).thenReturn(false);
+
+                assertThrows(FileManagerException.class, () -> fileManager.delete(filePath));
+            }
+        }
+
+        @Test
+        void shouldDeleteFile_whenDeleteIsInvoked() {
+            Path filePath = Path.of("/directory/file.txt");
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(filePath)).thenReturn(true);
+
+                assertDoesNotThrow(() -> fileManager.delete(filePath));
+
+                filesMock.verify(() -> Files.delete(filePath));
+            }
+        }
+
+        @Test
+        void shouldThrowFileManagerException_whenReadingFails() {
+            Path filePath = Path.of("/directory/file.txt");
+
+            try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
+                filesMock.when(() -> Files.exists(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isRegularFile(filePath)).thenReturn(true);
+                filesMock.when(() -> Files.isWritable(filePath)).thenReturn(true);
+
+                filesMock.when(() -> Files.delete(filePath)).thenThrow(new IOException());
+
+                FileManagerException exception = assertThrows(
+                        FileManagerException.class,
+                        () -> fileManager.delete(filePath)
+                );
+
+                assertInstanceOf(IOException.class, exception.getCause());
+                filesMock.verify(() -> Files.delete(filePath));
+            }
+        }
+
+    }
 }
