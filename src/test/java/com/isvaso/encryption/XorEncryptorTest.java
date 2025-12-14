@@ -33,7 +33,8 @@ class XorEncryptorTest {
                 "{",
                 ":",
                 ",",
-                "@"
+                "@",
+                "\n"
         })
         void shouldEncryptData_whenEncryptSign(String originalString) {
             String actualString = xorEncryptor.encrypt(originalString);
@@ -129,7 +130,8 @@ class XorEncryptorTest {
                 "{",
                 ":",
                 ",",
-                "@"
+                "@",
+                "\n"
         })
         void shouldDecryptData_whenDecryptSign(String originalString) {
             String actualString = xorEncryptor.decrypt(xorEncryptor.encrypt(originalString));
