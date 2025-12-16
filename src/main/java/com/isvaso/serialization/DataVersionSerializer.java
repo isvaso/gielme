@@ -11,6 +11,10 @@ import java.util.Optional;
 public class DataVersionSerializer {
 
     public String serialize(DataVersion dataVersion) throws SerializerException {
+        if (dataVersion == null)
+            throw new SerializerException("DataVersion cannot be null");
+        if (dataVersion.getVersion() < 0)
+            throw new SerializerException("Version should be positive, but now is ''%s'".formatted(dataVersion.getVersion()));
         return String.valueOf(dataVersion.getVersion());
     }
 
