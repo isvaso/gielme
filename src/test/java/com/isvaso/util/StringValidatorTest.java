@@ -10,6 +10,45 @@ import static org.junit.jupiter.api.Assertions.*;
 class StringValidatorTest {
 
     @Nested
+    class IsEmpty {
+
+        @Test
+        void shouldReturnTrue_whenStringIsEmpty() {
+            String string = "";
+
+            assertTrue(StringValidator.isEmpty(string));
+        }
+
+        @Test
+        void shouldReturnFalse_whenStringIsNull() {
+            String string = null;
+
+            assertFalse(StringValidator.isEmpty(string));
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "Test",
+                "!",
+                "^ ^",
+                "$%~"
+        })
+        void shouldReturnFalse_whenStringIsNotEmpty(String string) {
+            assertFalse(StringValidator.isEmptyOrNull(string));
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "\n",
+                " ",
+                "     "
+        })
+        void shouldReturnFalse_whenStringIsBlank(String string) {
+            assertFalse(StringValidator.isEmptyOrNull(string));
+        }
+    }
+
+    @Nested
     class IsEmptyOrNull {
 
         @Test
