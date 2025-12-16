@@ -19,9 +19,15 @@ public class DataVersionSerializer {
     }
 
     public Optional<DataVersion> deserialize(String string) throws SerializerException {
-        if (StringValidator.isEmptyOrNull(string))
-            throw new SerializerException("Invalid string with data version");
-        int version = Integer.parseInt(string);
-        return Optional.of(new DataVersion(version));
+        if (StringValidator.isBlankOrNull(string))
+            throw new SerializerException("Invalid string with data version '%s'".formatted(string));
+        try {
+            int version = Integer.parseInt(string);
+            if (version < 0)
+                throw new SerializerException("Version should be positive, but now is '%s'".formatted(version));
+            return Optional.of(new DataVersion(version));
+        } catch (NumberFormatException exception) {
+            throw new SerializerException("Error while parsing data version '%s'".formatted(string), exception);
+        }
     }
 }
