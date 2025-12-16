@@ -30,14 +30,60 @@ class StringValidatorTest {
         @ValueSource(strings = {
                 "Test",
                 "!",
+                "^ ^",
+                "$%~"
+        })
+        void shouldReturnFalse_whenStringIsNotEmpty(String string) {
+            assertFalse(StringValidator.isEmptyOrNull(string));
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {
                 "\n",
                 " ",
                 "     "
         })
-        void shouldReturnFalse_whenStringIsNotEmpty() {
-            String string = "Test";
-
+        void shouldReturnFalse_whenStringIsBlank(String string) {
             assertFalse(StringValidator.isEmptyOrNull(string));
+        }
+    }
+
+    @Nested
+    class IsBlankOrNull {
+
+        @Test
+        void shouldReturnTrue_whenStringIsEmpty() {
+            String string = "";
+
+            assertTrue(StringValidator.isBlankOrNull(string));
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "\n",
+                " ",
+                "     "
+        })
+        void shouldReturnTrue_whenStringIsBlank(String string) {
+            assertTrue(StringValidator.isBlankOrNull(string));
+        }
+
+        @Test
+        void shouldReturnTrue_whenStringIsNull() {
+            String string = null;
+
+            assertTrue(StringValidator.isBlankOrNull(string));
+        }
+
+        @ParameterizedTest
+        @ValueSource(strings = {
+                "Test",
+                "!",
+                "^ ^",
+                "$%~"
+        })
+        void shouldReturnFalse_whenStringIsNotEmpty(String string) {
+            assertFalse(StringValidator.isBlankOrNull(string));
         }
     }
 }
