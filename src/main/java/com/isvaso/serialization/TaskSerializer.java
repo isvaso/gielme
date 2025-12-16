@@ -51,11 +51,15 @@ public class TaskSerializer {
     }
 
     public Optional<Task> deserialize(String string) throws SerializerException {
+        if(string == null)
+            throw new SerializerException("String with tasks list cannot be null");
         String[] stringValues = string.split(SerializationProperties.FIELD_DELIMITER);
         if (stringValues.length < 2)
             throw new SerializerException("Invalid data for Task deserialization: %s".formatted(string));
         try {
             String name = stringValues[0];
+            if(StringValidator.isBlankOrNull(name))
+                throw new SerializerException("Task name cannot be empty or null");
             TaskState state = TaskState.valueOf(stringValues[1]);
             return Optional.ofNullable(Task.builder()
                     .name(name)
