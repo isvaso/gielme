@@ -1,16 +1,12 @@
 package com.isvaso.ioc.configuration;
 
-import com.isvaso.encryption.XorEncryptor;
-import com.isvaso.ioc.BeanContainer;
-import com.isvaso.repository.DataVersionRepository;
-import com.isvaso.repository.TaskRepository;
-import com.isvaso.serialization.DataVersionSerializer;
-import com.isvaso.serialization.TaskSerializer;
-import com.isvaso.service.DataVersionService;
-import com.isvaso.service.TaskBackupService;
-import com.isvaso.service.TaskService;
-import com.isvaso.storage.DataVersionStorage;
-import com.isvaso.storage.FileManager;
+import com.isvaso.files.FileManager;
+import com.isvaso.ioc.core.BeanContainer;
+import com.isvaso.domain.repository.DataVersionRepository;
+import com.isvaso.domain.repository.TaskRepository;
+import com.isvaso.domain.service.DataVersionService;
+import com.isvaso.backup.TaskBackupManager;
+import com.isvaso.domain.service.TaskService;
 import com.isvaso.storage.TaskStorage;
 
 public class ServiceConfiguration implements BeanConfiguration {
@@ -22,8 +18,8 @@ public class ServiceConfiguration implements BeanConfiguration {
                 bc -> new DataVersionService(bc.getBean(DataVersionRepository.class))
         );
         beanContainer.registerSingleton(
-                TaskBackupService.class,
-                bc -> new TaskBackupService(bc.getBean(TaskStorage.class))
+                TaskBackupManager.class,
+                bc -> new TaskBackupManager(bc.getBean(FileManager.class))
         );
         beanContainer.registerSingleton(
                 TaskService.class,

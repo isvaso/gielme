@@ -1,6 +1,6 @@
 package com.isvaso.ioc.configuration;
 
-import com.isvaso.ioc.BeanContainer;
+import com.isvaso.ioc.core.BeanContainer;
 
 import java.util.List;
 

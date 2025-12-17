@@ -3,7 +3,8 @@ package com.isvaso.storage;
 import com.isvaso.encryption.Encryptor;
 import com.isvaso.exception.FileManagerException;
 import com.isvaso.exception.SerializerException;
-import com.isvaso.model.Task;
+import com.isvaso.domain.model.Task;
+import com.isvaso.files.FileManager;
 import com.isvaso.serialization.TaskSerializer;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,9 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.isvaso.storage.StorageProperties.*;
+
 @Slf4j
 @AllArgsConstructor
-public class TaskStorage implements BackupStorage {
+public class TaskStorage {
 
     private final FileManager fileManager;
     private final TaskSerializer serializer;
@@ -25,7 +28,7 @@ public class TaskStorage implements BackupStorage {
         try {
             String serializedTasks = serializer.serializeList(tasks);
             String encryptedTasks = encryptor.encrypt(serializedTasks);
-            fileManager.write(StorageProperties.TASKS_FILE_PATH, encryptedTasks);
+            fileManager.write(TASKS_FILE_PATH, encryptedTasks);
         } catch (FileManagerException | SerializerException exception) {
             log.error("Error while adding task", exception);
         }
@@ -33,7 +36,7 @@ public class TaskStorage implements BackupStorage {
 
     public List<Task> get() {
         try {
-            String dataFromFile = fileManager.read(StorageProperties.TASKS_FILE_PATH);
+            String dataFromFile = fileManager.read(TASKS_FILE_PATH);
             String decryptedData = encryptor.decrypt(dataFromFile);
             return serializer.deserializeList(decryptedData);
         } catch (FileManagerException | SerializerException exception) {
@@ -46,33 +49,9 @@ public class TaskStorage implements BackupStorage {
         try {
             String serializedTasks = serializer.serializeList(tasks);
             String encryptedData = encryptor.encrypt(serializedTasks);
-            fileManager.write(StorageProperties.TASKS_FILE_PATH, encryptedData);
+            fileManager.write(TASKS_FILE_PATH, encryptedData);
         } catch (FileManagerException | SerializerException exception) {
             log.error("Error while updating tasks", exception);
         }
-    }
-
-    @Override
-    public boolean backup() {
-        try {
-            fileManager.copy(StorageProperties.TASKS_FILE_PATH, StorageProperties.TASK_BACKUP_FILE_PATH);
-            return true;
-        } catch (FileManagerException exception) {
-            log.error("Error while backup task", exception);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean restore() {
-        try {
-            fileManager.delete(StorageProperties.TASKS_FILE_PATH);
-            fileManager.copy(StorageProperties.TASK_BACKUP_FILE_PATH, StorageProperties.TASKS_FILE_PATH);
-            fileManager.delete(StorageProperties.TASK_BACKUP_FILE_PATH);
-            return true;
-        } catch (FileManagerException exception) {
-            log.error("Error while backup task", exception);
-        }
-        return false;
     }
 }

@@ -2,7 +2,6 @@ package com.isvaso.storage;
 
 import java.nio.file.Path;
 
-// TODO: non static for testing
 public class StorageProperties {
 
     public static final int APP_DATA_VERSION = 0;

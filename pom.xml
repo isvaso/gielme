@@ -83,7 +83,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.isvaso.Application</mainClass>
+                                    <mainClass>com.isvaso.application.Application</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

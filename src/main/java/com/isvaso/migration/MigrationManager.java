@@ -2,9 +2,9 @@ package com.isvaso.migration;
 
 import com.isvaso.exception.MigrationException;
 import com.isvaso.exception.MigrationExecutionException;
-import com.isvaso.model.DataVersion;
-import com.isvaso.service.DataVersionService;
-import com.isvaso.service.TaskBackupService;
+import com.isvaso.domain.model.DataVersion;
+import com.isvaso.domain.service.DataVersionService;
+import com.isvaso.backup.TaskBackupManager;
 import com.isvaso.storage.StorageProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MigrationManager {
 
-    private final TaskBackupService taskBackupService;
+    private final TaskBackupManager taskBackupManager;
 
     private final DataVersionService dataVersionService;
 
@@ -60,13 +60,13 @@ public class MigrationManager {
 
     private void backupData() {
         log.info("Backup data");
-        boolean isBackup = taskBackupService.backup();
+        boolean isBackup = taskBackupManager.backup();
         if (!isBackup)
             throw new MigrationException("Failed to make a backup");
     }
 
     private void restoreData() {
-        boolean isRestore = taskBackupService.restore();
+        boolean isRestore = taskBackupManager.restore();
         if (!isRestore)
             throw new MigrationException("Failed to make a backup");
     }

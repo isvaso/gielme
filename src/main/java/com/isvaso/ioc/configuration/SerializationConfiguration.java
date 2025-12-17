@@ -1,9 +1,8 @@
 package com.isvaso.ioc.configuration;
 
-import com.isvaso.ioc.BeanContainer;
+import com.isvaso.ioc.core.BeanContainer;
 import com.isvaso.serialization.DataVersionSerializer;
 import com.isvaso.serialization.TaskSerializer;
-import com.isvaso.storage.FileManager;
 
 public class SerializationConfiguration implements BeanConfiguration {
 

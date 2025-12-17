@@ -1,8 +1,8 @@
 package com.isvaso.ioc.configuration;
 
-import com.isvaso.ioc.BeanContainer;
-import com.isvaso.repository.DataVersionRepository;
-import com.isvaso.repository.TaskRepository;
+import com.isvaso.ioc.core.BeanContainer;
+import com.isvaso.domain.repository.DataVersionRepository;
+import com.isvaso.domain.repository.TaskRepository;
 import com.isvaso.storage.DataVersionStorage;
 import com.isvaso.storage.TaskStorage;
 
