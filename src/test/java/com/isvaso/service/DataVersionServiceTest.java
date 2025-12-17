@@ -17,7 +17,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@RequiredArgsConstructor
 @ExtendWith(MockitoExtension.class)
 class DataVersionServiceTest {
 
@@ -32,8 +31,6 @@ class DataVersionServiceTest {
 
         @Test
         void shouldCallRepository_whenInvoked() {
-            when(dataVersionRepository.get()).thenReturn(Optional.empty());
-
             dataVersionService.get();
 
             verify(dataVersionRepository).get();
@@ -55,7 +52,6 @@ class DataVersionServiceTest {
         @Test
         void shouldCallRepository_whenInvoked() {
             DataVersion dataVersion = new DataVersion(1);
-            when(dataVersionRepository.update(dataVersion)).thenReturn(Optional.of(dataVersion));
 
             dataVersionService.update(dataVersion);
 
