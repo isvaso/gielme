@@ -1,20 +1,20 @@
 package com.isvaso.service;
 
-import com.isvaso.storage.TaskStorage;
+import com.isvaso.storage.BackupStorage;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class TaskBackupService {
 
-    private final TaskStorage taskStorage;
+    private final BackupStorage backupStorage;
 
     public boolean backup()
     {
-        return taskStorage.backup();
+        return backupStorage.backup();
     }
 
     public boolean restore()
     {
-        return taskStorage.restore();
+        return backupStorage.restore();
     }
 }
