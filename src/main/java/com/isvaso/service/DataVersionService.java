@@ -20,11 +20,10 @@ public class DataVersionService {
     }
 
     public Optional<DataVersion> update(DataVersion dataVersion) {
-        try {
-            return repository.update(dataVersion);
-        } catch (RepositoryException exception) {
-            log.error("Error while updating data version", exception);
+        if (dataVersion == null) {
+            log.error("DataVersion cannot be null");
+            return Optional.empty();
         }
-        return Optional.empty();
+        return repository.update(dataVersion);
     }
 }
