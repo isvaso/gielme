@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
-public class TaskStorage {
+public class TaskStorage implements BackupStorage {
 
     private final FileManager fileManager;
     private final TaskSerializer serializer;
@@ -52,6 +52,7 @@ public class TaskStorage {
         }
     }
 
+    @Override
     public boolean backup() {
         try {
             fileManager.copy(StorageProperties.TASKS_FILE_PATH, StorageProperties.TASK_BACKUP_FILE_PATH);
@@ -62,6 +63,7 @@ public class TaskStorage {
         return false;
     }
 
+    @Override
     public boolean restore() {
         try {
             fileManager.delete(StorageProperties.TASKS_FILE_PATH);
