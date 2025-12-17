@@ -1,8 +1,8 @@
 package com.isvaso.serialization;
 
 import com.isvaso.exception.SerializerException;
-import com.isvaso.model.Task;
-import com.isvaso.model.TaskState;
+import com.isvaso.domain.model.Task;
+import com.isvaso.domain.model.TaskState;
 import com.isvaso.util.StringValidator;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -1,9 +1,9 @@
 package com.isvaso.ioc.configuration;
 
-import com.isvaso.ioc.BeanContainer;
+import com.isvaso.ioc.core.BeanContainer;
 import com.isvaso.migration.MigrationManager;
-import com.isvaso.service.DataVersionService;
-import com.isvaso.service.TaskBackupService;
+import com.isvaso.domain.service.DataVersionService;
+import com.isvaso.backup.TaskBackupManager;
 
 public class MigrationConfiguration implements BeanConfiguration {
 
@@ -12,7 +12,7 @@ public class MigrationConfiguration implements BeanConfiguration {
         beanContainer.registerSingleton(
                 MigrationManager.class,
                 bc -> new MigrationManager(
-                        bc.getBean(TaskBackupService.class),
+                        bc.getBean(TaskBackupManager.class),
                         bc.getBean(DataVersionService.class)
                 )
         );

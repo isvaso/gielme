@@ -1,10 +1,10 @@
 package com.isvaso.ioc.configuration;
 
-import com.isvaso.controller.*;
-import com.isvaso.ioc.BeanContainer;
-import com.isvaso.screen.Screen;
-import com.isvaso.service.TaskService;
-import com.isvaso.view.*;
+import com.isvaso.ioc.core.BeanContainer;
+import com.isvaso.ui.controller.*;
+import com.isvaso.ui.screen.Screen;
+import com.isvaso.domain.service.TaskService;
+import com.isvaso.ui.view.*;
 
 public class ControllerConfiguration implements BeanConfiguration {
 

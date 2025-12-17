@@ -1,7 +1,7 @@
 package com.isvaso.ioc.configuration;
 
-import com.isvaso.ioc.BeanContainer;
-import com.isvaso.view.*;
+import com.isvaso.ioc.core.BeanContainer;
+import com.isvaso.ui.view.*;
 
 public class ViewConfiguration implements BeanConfiguration {
 

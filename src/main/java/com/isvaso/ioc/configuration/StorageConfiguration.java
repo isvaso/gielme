@@ -1,11 +1,11 @@
 package com.isvaso.ioc.configuration;
 
 import com.isvaso.encryption.XorEncryptor;
-import com.isvaso.ioc.BeanContainer;
+import com.isvaso.ioc.core.BeanContainer;
 import com.isvaso.serialization.DataVersionSerializer;
 import com.isvaso.serialization.TaskSerializer;
 import com.isvaso.storage.DataVersionStorage;
-import com.isvaso.storage.FileManager;
+import com.isvaso.files.FileManager;
 import com.isvaso.storage.TaskStorage;
 
 public class StorageConfiguration implements BeanConfiguration {

@@ -1,8 +1,7 @@
 package com.isvaso.ioc.configuration;
 
-import com.isvaso.ioc.BeanContainer;
-import com.isvaso.screen.Screen;
-import com.isvaso.view.IndexView;
+import com.isvaso.ioc.core.BeanContainer;
+import com.isvaso.ui.screen.Screen;
 
 public class ScreenConfiguration implements BeanConfiguration {
 

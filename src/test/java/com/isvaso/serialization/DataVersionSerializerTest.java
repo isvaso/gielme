@@ -1,7 +1,7 @@
 package com.isvaso.serialization;
 
 import com.isvaso.exception.SerializerException;
-import com.isvaso.model.DataVersion;
+import com.isvaso.domain.model.DataVersion;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
