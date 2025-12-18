@@ -10,6 +10,10 @@ package com.isvaso.exception;
  */
 public class BaseException extends Exception {
 
+    public BaseException(Throwable cause) {
+
+        super(cause);
+    }
     public BaseException(String message, Throwable cause) {
         super(message, cause);
     }
