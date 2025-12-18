@@ -7,9 +7,11 @@ import com.isvaso.exception.SerializerException;
 import com.isvaso.exception.StorageException;
 import com.isvaso.files.FileManager;
 import com.isvaso.serialization.TaskSerializer;
+import com.isvaso.util.StringValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Collections;
 import java.util.List;
 
 import static com.isvaso.storage.StorageProperties.TASKS_FILE_PATH;
@@ -39,6 +41,8 @@ public class TaskStorage {
     public List<Task> get() throws StorageException {
         try {
             String dataFromFile = fileManager.read(TASKS_FILE_PATH);
+            if(StringValidator.isBlankOrNull(dataFromFile))
+                return Collections.emptyList();
             String decryptedData = encryptor.decrypt(dataFromFile);
             return serializer.deserializeList(decryptedData);
         } catch (FileManagerException | SerializerException exception) {
