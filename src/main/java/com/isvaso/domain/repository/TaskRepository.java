@@ -2,6 +2,7 @@ package com.isvaso.domain.repository;
 
 import com.isvaso.exception.RepositoryException;
 import com.isvaso.domain.model.Task;
+import com.isvaso.exception.StorageException;
 import com.isvaso.storage.TaskStorage;
 import lombok.RequiredArgsConstructor;
 
@@ -15,19 +16,31 @@ public class TaskRepository {
 
     public Optional<Task> add(Task task) throws RepositoryException {
         if(task == null)
-            throw new RepositoryException("Task is null");
-        storage.add(task);
+            throw new RepositoryException("Task cannot be null null");
+        try {
+            storage.add(task);
+        } catch (StorageException exception) {
+            throw new RepositoryException(exception);
+        }
         return Optional.of(task);
     }
 
-    public List<Task> get() {
-        return storage.get();
+    public List<Task> get() throws RepositoryException {
+        try {
+            return storage.get();
+        } catch (StorageException exception) {
+            throw new RepositoryException(exception);
+        }
     }
 
     public List<Task> update(List<Task> tasks) throws RepositoryException {
         if(tasks == null)
-            throw new RepositoryException("Tasks is null");
-        storage.update(tasks);
+            throw new RepositoryException("Task cannot be null null");
+        try {
+            storage.update(tasks);
+        } catch (StorageException exception) {
+            throw new RepositoryException(exception);
+        }
         return tasks;
     }
 }

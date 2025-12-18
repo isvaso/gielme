@@ -20,13 +20,18 @@ public class TaskService {
         try {
             return repository.add(task);
         } catch (RepositoryException exception) {
-            log.error("Error while add task", exception);
+            log.error("Error while adding task", exception);
         }
         return Optional.empty();
     }
 
     public List<Task> get() {
-        return repository.get();
+        try {
+            return repository.get();
+        } catch (RepositoryException exception) {
+            log.error("Error while getting task", exception);
+        }
+        return Collections.emptyList();
     }
 
     public List<Task> update(List<Task> tasks) {

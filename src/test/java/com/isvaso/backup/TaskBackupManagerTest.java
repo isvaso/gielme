@@ -38,7 +38,7 @@ class TaskBackupManagerTest {
         }
 
         @Test
-        void shouldReturnTrue_whenSucceed() throws FileManagerException {
+        void shouldReturnTrue_whenSucceed() {
             boolean result = taskBackupManager.backup();
 
             assertTrue(result);
@@ -99,7 +99,7 @@ class TaskBackupManagerTest {
 
             taskBackupManager.restore();
 
-            verify(fileManager, never()).delete(TASK_BACKUP_FILE_PATH);
+            verify(fileManager, never()).delete(any());
         }
     }
 }

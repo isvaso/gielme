@@ -2,6 +2,10 @@ package com.isvaso.exception;
 
 public class IocException extends BaseRuntimeException {
 
+    public IocException(Throwable cause) {
+        super(cause);
+    }
+
     public IocException(String message, Throwable cause) {
         super(message, cause);
     }

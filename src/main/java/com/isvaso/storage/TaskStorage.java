@@ -1,18 +1,20 @@
 package com.isvaso.storage;
 
+import com.isvaso.domain.model.Task;
 import com.isvaso.encryption.Encryptor;
 import com.isvaso.exception.FileManagerException;
 import com.isvaso.exception.SerializerException;
-import com.isvaso.domain.model.Task;
+import com.isvaso.exception.StorageException;
 import com.isvaso.files.FileManager;
 import com.isvaso.serialization.TaskSerializer;
+import com.isvaso.util.StringValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import static com.isvaso.storage.StorageProperties.*;
+import static com.isvaso.storage.StorageProperties.TASKS_FILE_PATH;
 
 @Slf4j
 @AllArgsConstructor
@@ -22,7 +24,9 @@ public class TaskStorage {
     private final TaskSerializer serializer;
     private final Encryptor encryptor;
 
-    public void add(Task task) {
+    public void add(Task task) throws StorageException {
+        if(task == null)
+            throw new StorageException("Task cannot be null null");
         List<Task> tasks = get();
         tasks.add(task);
         try {
@@ -30,28 +34,31 @@ public class TaskStorage {
             String encryptedTasks = encryptor.encrypt(serializedTasks);
             fileManager.write(TASKS_FILE_PATH, encryptedTasks);
         } catch (FileManagerException | SerializerException exception) {
-            log.error("Error while adding task", exception);
+            throw new StorageException("Error while adding task", exception);
         }
     }
 
-    public List<Task> get() {
+    public List<Task> get() throws StorageException {
         try {
             String dataFromFile = fileManager.read(TASKS_FILE_PATH);
+            if(StringValidator.isBlankOrNull(dataFromFile))
+                return Collections.emptyList();
             String decryptedData = encryptor.decrypt(dataFromFile);
             return serializer.deserializeList(decryptedData);
         } catch (FileManagerException | SerializerException exception) {
-            log.error("Error while getting tasks", exception);
+            throw new StorageException("Error while getting tasks", exception);
         }
-        return new ArrayList<>();
     }
 
-    public void update(List<Task> tasks) {
+    public void update(List<Task> tasks) throws StorageException {
+        if(tasks == null)
+            throw new StorageException("Tasks cannot be null null");
         try {
             String serializedTasks = serializer.serializeList(tasks);
             String encryptedData = encryptor.encrypt(serializedTasks);
             fileManager.write(TASKS_FILE_PATH, encryptedData);
         } catch (FileManagerException | SerializerException exception) {
-            log.error("Error while updating tasks", exception);
+            throw new StorageException("Error while updating task", exception);
         }
     }
 }
